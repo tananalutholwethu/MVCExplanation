@@ -1,5 +1,6 @@
-$(document).ready(function() {
+$(document).ready(function () {
     'use strict';
+
 
     // ============================================
     // CONFIGURATION
@@ -9,7 +10,8 @@ $(document).ready(function() {
         currentSlide: 1,
         swipeThreshold: 50,
         copyFeedbackDuration: 2000,
-        storageKey: 'phpMvcTraining_currentSlide'
+        storageKey: 'phpMvcTraining_currentSlide',
+        lockedAfterSlide: 18
     };
 
     // ============================================
@@ -36,18 +38,18 @@ $(document).ready(function() {
     function updateSlide() {
         // Remove active class from all slides
         $('.slide').removeClass('active');
-        
+
         // Add active class to current slide
         const $currentSlide = $(`.slide[data-slide="${CONFIG.currentSlide}"]`);
         $currentSlide.addClass('active');
-        
+
         // Re-highlight code blocks in current slide
         if (typeof hljs !== 'undefined') {
-            $currentSlide.find('pre code').each(function() {
+            $currentSlide.find('pre code').each(function () {
                 hljs.highlightElement(this);
             });
         }
-        
+
         // Update UI elements
         updateProgressBar();
         updateCounters();
@@ -126,13 +128,13 @@ $(document).ready(function() {
     }
 
     function setupKeyboardNavigation() {
-        $(document).on('keydown', function(e) {
+        $(document).on('keydown', function (e) {
             // Ignore if typing in input/textarea
             if ($(e.target).is('input, textarea')) {
                 return;
             }
 
-            switch(e.key) {
+            switch (e.key) {
                 case 'ArrowLeft':
                     e.preventDefault();
                     prevSlide();
@@ -155,21 +157,21 @@ $(document).ready(function() {
     }
 
     function setupRevealButtons() {
-        $(document).on('click', '.reveal-btn', function() {
+        $(document).on('click', '.reveal-btn', function () {
             const targetId = $(this).data('target');
             toggleRevealContent(targetId, $(this));
         });
     }
 
     function setupCopyButtons() {
-        $(document).on('click', '.copy-btn', function() {
+        $(document).on('click', '.copy-btn', function () {
             const codeId = $(this).data('code');
             copyCodeToClipboard(codeId, $(this));
         });
     }
 
     function setupTabSwitching() {
-        $(document).on('click', '.tab-btn', function() {
+        $(document).on('click', '.tab-btn', function () {
             const targetTab = $(this).data('tab');
             switchTab(targetTab, $(this));
         });
@@ -180,17 +182,17 @@ $(document).ready(function() {
     // ============================================
     function toggleRevealContent(targetId, $button) {
         const $content = $('#' + targetId);
-        
+
         if (!$content.length) return;
-        
+
         if ($content.is(':visible')) {
             $content.slideUp(300);
             $button.html('<i class="fas fa-eye"></i> Show Code');
         } else {
-            $content.slideDown(300, function() {
+            $content.slideDown(300, function () {
                 // Re-highlight code after animation
                 if (typeof hljs !== 'undefined') {
-                    $content.find('pre code').each(function() {
+                    $content.find('pre code').each(function () {
                         hljs.highlightElement(this);
                     });
                 }
@@ -206,13 +208,13 @@ $(document).ready(function() {
         // Update button states
         $clickedBtn.siblings('.tab-btn').removeClass('active');
         $clickedBtn.addClass('active');
-        
+
         // Update tab content
         $('.tab-content').removeClass('active').hide();
-        $('#' + targetTab).addClass('active').fadeIn(300, function() {
+        $('#' + targetTab).addClass('active').fadeIn(300, function () {
             // Re-highlight code in the new tab
             if (typeof hljs !== 'undefined') {
-                $(this).find('pre code').each(function() {
+                $(this).find('pre code').each(function () {
                     hljs.highlightElement(this);
                 });
             }
@@ -224,11 +226,11 @@ $(document).ready(function() {
     // ============================================
     function copyCodeToClipboard(codeId, $button) {
         const $codeElement = $('#' + codeId);
-        
+
         if (!$codeElement.length) return;
-        
+
         const codeText = $codeElement.text();
-        
+
         // Use modern Clipboard API
         if (navigator.clipboard) {
             navigator.clipboard.writeText(codeText)
@@ -247,27 +249,27 @@ $(document).ready(function() {
                 opacity: 0
             })
             .appendTo('body');
-        
+
         $textarea[0].select();
-        
+
         try {
             document.execCommand('copy');
             showCopyFeedback($button);
         } catch (err) {
             console.error('Copy failed:', err);
         }
-        
+
         $textarea.remove();
     }
 
     function showCopyFeedback($button) {
         const originalHtml = $button.html();
-        
+
         $button
             .html('<i class="fas fa-check"></i> Copied!')
             .css('background', '#48bb78');
-        
-        setTimeout(function() {
+
+        setTimeout(function () {
             $button
                 .html(originalHtml)
                 .css('background', '');
@@ -281,11 +283,11 @@ $(document).ready(function() {
         let touchStartX = 0;
         let touchEndX = 0;
 
-        $(document).on('touchstart', function(e) {
+        $(document).on('touchstart', function (e) {
             touchStartX = e.originalEvent.changedTouches[0].screenX;
         });
 
-        $(document).on('touchend', function(e) {
+        $(document).on('touchend', function (e) {
             touchEndX = e.originalEvent.changedTouches[0].screenX;
             handleSwipe(touchStartX, touchEndX);
         });
@@ -293,7 +295,7 @@ $(document).ready(function() {
 
     function handleSwipe(startX, endX) {
         const diff = endX - startX;
-        
+
         // Swipe left - next slide
         if (diff < -CONFIG.swipeThreshold) {
             nextSlide();
