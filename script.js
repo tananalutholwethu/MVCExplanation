@@ -60,6 +60,11 @@ $(document).ready(function () {
 
     function goToSlide(slideNumber) {
         if (slideNumber >= 1 && slideNumber <= CONFIG.totalSlides) {
+            // Check if trying to go past locked slide
+            if (slideNumber > CONFIG.lockedAfterSlide) {
+                showLockedMessage();
+                return;
+            }
             CONFIG.currentSlide = slideNumber;
             updateSlide();
         }
@@ -67,6 +72,11 @@ $(document).ready(function () {
 
     function nextSlide() {
         if (CONFIG.currentSlide < CONFIG.totalSlides) {
+            // Check if trying to go past locked slide
+            if (CONFIG.currentSlide >= CONFIG.lockedAfterSlide) {
+                showLockedMessage();
+                return;
+            }
             CONFIG.currentSlide++;
             updateSlide();
         }
@@ -102,13 +112,63 @@ $(document).ready(function () {
 
     function updateButtonStates() {
         $('#prevBtn').prop('disabled', CONFIG.currentSlide === 1);
-        $('#nextBtn').prop('disabled', CONFIG.currentSlide === CONFIG.totalSlides);
+
+        // Disable next button if on last slide OR if at locked slide
+        const isLocked = CONFIG.currentSlide >= CONFIG.lockedAfterSlide;
+        $('#nextBtn').prop('disabled', CONFIG.currentSlide === CONFIG.totalSlides || isLocked);
+
+        // Show lock icon on next button if locked
+        if (isLocked) {
+            $('#nextBtn').html('<i class="fas fa-lock"></i> Locked');
+            $('#nextBtn').addClass('locked');
+        } else {
+            $('#nextBtn').html('Next <i class="fas fa-chevron-right"></i>');
+            $('#nextBtn').removeClass('locked');
+        }
     }
 
     function scrollToTop() {
         $('html, body').animate({ scrollTop: 0 }, 400);
     }
+    // ============================================
+    // LOCKED MESSAGE
+    // ============================================
+    function showLockedMessage() {
+        // Remove existing modal if any
+        $('.lock-modal').remove();
 
+        // Create modal
+        const $modal = $(`
+        <div class="lock-modal">
+            <div class="lock-modal-content">
+                <i class="fas fa-lock fa-4x"></i>
+                <h2>Content Locked</h2>
+                <p>The remaining slides are locked for now.</p>
+                <p class="small-text">Complete the practical exercises first, then we'll unlock the rest!</p>
+                <button class="modal-close-btn">Got it!</button>
+            </div>
+        </div>
+    `);
+
+        $('body').append($modal);
+
+        // Fade in
+        setTimeout(() => $modal.addClass('show'), 10);
+
+        // Close button
+        $modal.find('.modal-close-btn').on('click', function () {
+            $modal.removeClass('show');
+            setTimeout(() => $modal.remove(), 300);
+        });
+
+        // Click outside to close
+        $modal.on('click', function (e) {
+            if ($(e.target).hasClass('lock-modal')) {
+                $modal.removeClass('show');
+                setTimeout(() => $modal.remove(), 300);
+            }
+        });
+    }
     // ============================================
     // EVENT LISTENERS
     // ============================================
