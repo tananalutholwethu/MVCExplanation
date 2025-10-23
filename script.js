@@ -11,7 +11,7 @@ $(document).ready(function () {
         swipeThreshold: 50,
         copyFeedbackDuration: 2000,
         storageKey: 'phpMvcTraining_currentSlide',
-        lockedAfterSlide: 18
+        lockedAfterSlide: 25
     };
 
     // ============================================
@@ -73,10 +73,10 @@ $(document).ready(function () {
     function nextSlide() {
         if (CONFIG.currentSlide < CONFIG.totalSlides) {
             // Check if trying to go past locked slide
-            if (CONFIG.currentSlide >= CONFIG.lockedAfterSlide) {
-                showLockedMessage();
-                return;
-            }
+            // if (CONFIG.currentSlide >= CONFIG.lockedAfterSlide) {
+            //     showLockedMessage();
+            //     return;
+            // }
             CONFIG.currentSlide++;
             updateSlide();
         }
