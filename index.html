@@ -1559,14 +1559,14 @@ class Provinces extends \Core\Controller {
             $provinceModel = new \App\Models\Tables\Province();
             
             // Check if code already exists
-            if ($provinceModel->codeExists($params['code'])) {
+            if ($provinceModel->codeExists($params['province_code'])) {
                 $this->view->error = "Province code already exists!";
                 return;
             }
             
             $data = [
-                'name' => $params['name'],
-                'code' => strtoupper($params['code'])
+                'province_name' => $params['province_name'],
+                'province_code' => strtoupper($params['province_code'])
             ];
             
             $provinceModel->autoExecute(
@@ -1597,8 +1597,8 @@ class Provinces extends \Core\Controller {
         if ($this->getRequest()->isPost()) {
             // Form was submitted
             $data = [
-                'name' => $params['name'],
-                'code' => strtoupper($params['code'])
+                'province_name' => $params['province_name'],
+                'province_code' => strtoupper($params['province_code'])
             ];
             
             $provinceModel->autoExecute(
@@ -1707,8 +1707,8 @@ class Provinces extends \Core\Controller {
         &lt;tbody&gt;
             &lt;?php foreach($this->provinces as $prov): ?&gt;
             &lt;tr&gt;
-                &lt;td&gt;&lt;?= $prov['name'] ?&gt;&lt;/td&gt;
-                &lt;td&gt;&lt;?= $prov['code'] ?&gt;&lt;/td&gt;
+                &lt;td&gt;&lt;?= $prov['province_name'] ?&gt;&lt;/td&gt;
+                &lt;td&gt;&lt;?= $prov['province_code'] ?&gt;&lt;/td&gt;
                 &lt;td&gt;
                     &lt;a href="/provinces/update/id/&lt;?= $prov['id'] ?&gt;" 
                        class="btn btn-sm btn-warning"&gt;
@@ -1755,7 +1755,7 @@ class Provinces extends \Core\Controller {
                    class="form-control" 
                    id="name" 
                    name="name" 
-                   value="&lt;?= $this->province['name'] ?? '' ?&gt;" 
+                   value="&lt;?= $this->province['province_name'] ?? '' ?&gt;" 
                    required&gt;
         &lt;/div&gt;
         
@@ -1765,7 +1765,7 @@ class Provinces extends \Core\Controller {
                    class="form-control" 
                    id="code" 
                    name="code" 
-                   value="&lt;?= $this->province['code'] ?? '' ?&gt;" 
+                   value="&lt;?= $this->province['province_code'] ?? '' ?&gt;" 
                    maxlength="3" 
                    required&gt;
             &lt;small class="form-text text-muted"&gt;
