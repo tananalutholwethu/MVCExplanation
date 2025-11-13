@@ -7,6 +7,400 @@
     <title>PHP & MVC Training</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/dracula.min.css" rel="stylesheet">
+    <style>
+    /* Existing styles from styles.css would go here */
+    /* URL Breakdown Styles */
+    .url-breakdown-box {
+        background: #f7fafc;
+        padding: 32px;
+        border-radius: 12px;
+        margin: 32px 0;
+        border: 2px solid #e2e8f0;
+    }
+
+    .url-visual {
+        background: #282a36;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+        text-align: center;
+    }
+
+    .url-full {
+        font-family: 'Monaco', 'Consolas', monospace;
+        font-size: 1.125rem;
+        color: #f8f8f2;
+        word-break: break-all;
+    }
+
+    .url-controller {
+        background: #4299e1;
+        padding: 2px 8px;
+        border-radius: 4px;
+        color: white;
+        font-weight: bold;
+    }
+
+    .url-action {
+        background: #48bb78;
+        padding: 2px 8px;
+        border-radius: 4px;
+        color: white;
+        font-weight: bold;
+    }
+
+    .url-param {
+        background: #ed8936;
+        padding: 2px 8px;
+        border-radius: 4px;
+        color: white;
+        font-weight: bold;
+    }
+
+    .url-value {
+        background: #9f7aea;
+        padding: 2px 8px;
+        border-radius: 4px;
+        color: white;
+        font-weight: bold;
+    }
+
+    .url-explanation-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-top: 24px;
+    }
+
+    .url-part {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        border: 2px solid #e2e8f0;
+    }
+
+    .url-part.full-width {
+        grid-column: 1 / -1;
+    }
+
+    .url-label {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: bold;
+        margin-bottom: 12px;
+        font-size: 1.125rem;
+    }
+
+    .controller-label {
+        background: #ebf8ff;
+        color: #2c5282;
+    }
+
+    .action-label {
+        background: #c6f6d5;
+        color: #22543d;
+    }
+
+    .view-label {
+        background: #faf5ff;
+        color: #553c9a;
+    }
+
+    .param-label {
+        background: #fffaf0;
+        color: #7c2d12;
+    }
+
+    .pattern-box {
+        background: #faf5ff;
+        padding: 24px;
+        border-radius: 12px;
+        margin: 24px 0;
+        border-left: 4px solid #9f7aea;
+    }
+
+    .pattern-formula {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 16px;
+        text-align: center;
+    }
+
+    .pattern-formula code {
+        font-size: 1.25rem;
+        background: #282a36;
+        color: #50fa7b;
+        padding: 8px 16px;
+        border-radius: 6px;
+        display: inline-block;
+        margin: 12px 0;
+    }
+
+    .pattern-list {
+        text-align: left;
+        margin-top: 16px;
+        list-style: none;
+        padding: 0;
+    }
+
+    .pattern-list li {
+        padding: 8px 0;
+        color: #2d3748;
+    }
+
+    .pattern-list code {
+        background: #edf2f7;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.875rem;
+        color: #e53e3e;
+    }
+
+    .url-examples-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 16px;
+    }
+
+    .url-examples-table th,
+    .url-examples-table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .url-examples-table th {
+        background: #edf2f7;
+        font-weight: 600;
+        color: #2d3748;
+    }
+
+    .url-examples-table code {
+        background: #282a36;
+        color: #50fa7b;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.875rem;
+    }
+
+    /* URL Parameters Styles */
+    .url-params-box {
+        background: #fff5f7;
+        padding: 32px;
+        border-radius: 12px;
+        margin: 32px 0;
+        border: 2px solid #fc8181;
+    }
+
+    .url-params-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-top: 24px;
+    }
+
+    .param-part {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        border: 2px solid #feb2b2;
+    }
+
+    .debug-example-box {
+        background: #fffaf0;
+        padding: 32px;
+        border-radius: 12px;
+        margin: 32px 0;
+        border-left: 4px solid #ed8936;
+    }
+
+    .debug-output-box {
+        background: #f7fafc;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 20px;
+    }
+
+    .debug-note {
+        color: #4a5568;
+        font-style: italic;
+        margin-top: 12px;
+        padding: 12px;
+        background: white;
+        border-radius: 6px;
+    }
+
+    .usage-example {
+        background: #ebf8ff;
+        padding: 24px;
+        border-radius: 12px;
+        margin-top: 24px;
+    }
+
+    .patterns-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 16px;
+    }
+
+    .patterns-table th,
+    .patterns-table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .patterns-table th {
+        background: #2d3748;
+        color: white;
+        font-weight: 600;
+    }
+
+    .patterns-table code {
+        background: #282a36;
+        color: #50fa7b;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.875rem;
+    }
+
+    /* Why Box */
+    .why-box {
+        background: #faf5ff;
+        padding: 24px;
+        border-radius: 12px;
+        margin-top: 24px;
+        border-left: 4px solid #9f7aea;
+    }
+
+    .why-box h4 {
+        color: #553c9a;
+        margin-bottom: 16px;
+    }
+
+    .why-box ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .why-box li {
+        padding: 8px 0;
+        color: #2d3748;
+    }
+
+    /* Alternative Box */
+    .alternative-box {
+        background: #fff5f7;
+        padding: 24px;
+        border-radius: 12px;
+        margin-top: 24px;
+        border: 2px dashed #fc8181;
+    }
+
+    .alternative-box h4 {
+        color: #c53030;
+        margin-bottom: 12px;
+    }
+
+    /* Flow Explanation */
+    .flow-explanation {
+        background: #f7fafc;
+        padding: 24px;
+        border-radius: 12px;
+        margin-top: 24px;
+    }
+
+    .flow-item {
+        background: white;
+        padding: 16px;
+        border-radius: 8px;
+        margin: 12px 0;
+        border-left: 4px solid #4299e1;
+    }
+
+    .flow-url {
+        font-family: 'Monaco', 'Consolas', monospace;
+        background: #282a36;
+        color: #50fa7b;
+        padding: 8px 12px;
+        border-radius: 6px;
+        display: inline-block;
+        margin-bottom: 8px;
+        font-size: 0.9375rem;
+    }
+
+    /* Recap Box */
+    .recap-box {
+        background: #c6f6d5;
+        padding: 32px;
+        border-radius: 12px;
+        margin: 32px 0;
+    }
+
+    .recap-box h3 {
+        color: #22543d;
+        margin-bottom: 24px;
+        text-align: center;
+    }
+
+    .recap-item {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 16px 0;
+        border-left: 4px solid #48bb78;
+    }
+
+    .recap-item h4 {
+        color: #2f855a;
+        margin-bottom: 12px;
+    }
+
+    .recap-item p {
+        margin: 4px 0;
+        color: #2d3748;
+    }
+
+    /* Next Practice Box */
+    .next-practice-box {
+        background: #ebf8ff;
+        padding: 32px;
+        border-radius: 12px;
+        margin-top: 32px;
+        border: 2px solid #4299e1;
+    }
+
+    .next-practice-box h4 {
+        color: #2c5282;
+        margin-bottom: 16px;
+    }
+
+    .next-practice-box ul {
+        list-style: none;
+        padding-left: 20px;
+    }
+
+    .next-practice-box li::before {
+        content: "✓ ";
+        color: #48bb78;
+        font-weight: bold;
+        margin-right: 8px;
+    }
+
+    .subtle {
+        color: #718096;
+        font-size: 0.9375rem;
+        font-style: italic;
+    }
+
+    .small-text {
+        font-size: 0.875rem;
+        color: #718096;
+        margin-top: 8px;
+    }
+    </style>
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -17,7 +411,7 @@
     </div>
 
     <!-- Slide Counter -->
-    <div class="slide-counter" id="slideCounter">1 / 23</div>
+    <div class="slide-counter" id="slideCounter">1 / 25</div>
 
     <!-- Main Container -->
     <div class="container">
@@ -156,7 +550,7 @@
 
                 <div class="insight-box">
                     <i class="fas fa-question-circle"></i>
-                    <strong>But isn't this complicated?</strong> Actually, it’s simpler than it seems. A desktop app has to be installed on every user’s computer, but one web app can work for thousands of people at the same time using the same code. Starting fresh each time also helps prevent memory problems and makes fixing errors easier.
+                    <strong>But isn't this complicated?</strong> Actually, it's simpler than it seems. A desktop app has to be installed on every user's computer, but one web app can work for thousands of people at the same time using the same code. Starting fresh each time also helps prevent memory problems and makes fixing errors easier.
                 </div>
             </div>
         </div>
@@ -526,9 +920,6 @@ $age = 25;
                     <i class="fas fa-sitemap fa-5x"></i>
                     <h1>Understanding MVC</h1>
                     <p class="subtitle">Model - View - Controller</p>
-                    <!-- <div class="transition-note">
-                        <p>Time to organize our code like professionals</p>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -653,105 +1044,176 @@ $age = 25;
                 <h1>Your MVC-SHELL Framework</h1>
                 <p class="intro-text">Focus only on the <strong>app</strong> folder</p>
 
-                <div class="folder-visual">
+<div class="folder-visual">
                     <style>
-                        .tree-line {
+                        .vscode-explorer {
+                            background: #1e1e1e;
+                            border: 1px solid #333;
+                            border-radius: 8px;
+                            padding: 16px;
+                            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+                            font-size: 14px;
+                            color: #d4d4d4;
+                            max-width: 600px;
+                            margin: 0 auto;
+                        }
+
+                        .vscode-header {
+                            color: #999;
+                            font-size: 11px;
+                            text-transform: uppercase;
+                            letter-spacing: 0.5px;
+                            margin-bottom: 12px;
+                            padding-bottom: 8px;
+                            border-bottom: 1px solid #2d2d2d;
+                        }
+
+                        .vscode-item {
+                            display: flex;
+                            align-items: center;
+                            padding: 3px 0;
+                            cursor: default;
                             position: relative;
+                        }
+
+                        .vscode-item:hover {
+                            background: #2a2d2e;
+                        }
+
+                        .vscode-icon {
+                            width: 16px;
+                            margin-right: 6px;
+                            display: inline-flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+
+                        .vscode-folder {
+                            color: #dcb67a;
+                        }
+
+                        .vscode-file {
+                            color: #519aba;
+                        }
+
+                        .vscode-chevron {
+                            color: #d4d4d4;
+                            font-size: 10px;
+                            margin-right: 4px;
+                        }
+
+                        .vscode-indent {
                             padding-left: 20px;
                         }
 
-                        .tree-line::before {
-                            content: '';
-                            position: absolute;
-                            left: 0;
-                            top: 0;
-                            bottom: 0;
-                            width: 1px;
-                            background: linear-gradient(to bottom, #999, #999);
-                            background-size: 1px 20px;
+                        .vscode-name {
+                            color: #d4d4d4;
                         }
 
-                        .tree-connector {
-                            display: inline-block;
-                            width: 12px;
-                            height: 1px;
-                            background: #999;
-                            margin-right: 8px;
-                            vertical-align: middle;
-                            position: relative;
+                        .vscode-important {
+                            font-weight: bold;
+                            color: #4ec9b0;
                         }
 
-                        .tree-connector::before {
-                            content: '';
-                            position: absolute;
-                            left: -6px;
-                            top: -5px;
-                            width: 1px;
-                            height: 6px;
-                            background: #999;
+                        .vscode-badge {
+                            background: #0e639c;
+                            color: #fff;
+                            padding: 2px 8px;
+                            border-radius: 10px;
+                            font-size: 10px;
+                            margin-left: 10px;
+                            font-weight: 600;
                         }
 
-                        .folder-tree {
-                            font-family: monospace;
-                            line-height: 1.8;
+                        .vscode-badge-ignore {
+                            background: #666;
+                        }
+
+                        .vscode-comment {
+                            color: #6a9955;
+                            font-size: 12px;
+                            margin-left: 10px;
+                            font-style: italic;
+                        }
+
+                        .vscode-dimmed {
+                            opacity: 0.5;
                         }
                     </style>
 
-                    <div class="folder-tree">
-                        <div class="folder-item root">
-                            <i class="fas fa-folder-open"></i> mvc-shell/
+                    <div class="vscode-explorer">
+                        <div class="vscode-header">Explorer</div>
+                        
+                        <div class="vscode-item">
+                            <span class="vscode-chevron">▼</span>
+                            <span class="vscode-icon vscode-folder">📁</span>
+                            <span class="vscode-name">mvc-shell</span>
                         </div>
 
-                        <div style="margin-left: 30px;">
-                            <div class="folder-item important">
-                                <span class="tree-connector"></span><i class="fas fa-folder"></i> <strong>app/</strong>
-                                <span class="badge">← YOU WORK HERE</span>
+                        <div class="vscode-indent">
+                            <div class="vscode-item">
+                                <span class="vscode-chevron">▼</span>
+                                <span class="vscode-icon vscode-folder">📂</span>
+                                <span class="vscode-name vscode-important">app</span>
+                                <span class="vscode-badge">YOU WORK HERE</span>
                             </div>
 
-                            <div style="margin-left: 30px;" class="tree-line">
-                                <div class="folder-item">
-                                    <span class="tree-connector"></span><i class="fas fa-folder"></i> Controllers/
-                                    <div class="folder-desc">Your business logic</div>
+                            <div class="vscode-indent">
+                                <div class="vscode-item">
+                                    <span class="vscode-chevron">▶</span>
+                                    <span class="vscode-icon vscode-folder">📁</span>
+                                    <span class="vscode-name">Controllers</span>
+                                    <span class="vscode-comment">// Your business logic</span>
                                 </div>
 
-                                <div class="folder-item">
-                                    <span class="tree-connector"></span><i class="fas fa-folder"></i> Models/
-                                    <div style="margin-left: 30px;" class="tree-line">
-                                        <div class="folder-item">
-                                            <span class="tree-connector"></span><i class="fas fa-folder"></i> Tables/
-                                            <div class="folder-desc">Database stuff</div>
-                                        </div>
+                                <div class="vscode-item">
+                                    <span class="vscode-chevron">▼</span>
+                                    <span class="vscode-icon vscode-folder">📂</span>
+                                    <span class="vscode-name">Models</span>
+                                </div>
+
+                                <div class="vscode-indent">
+                                    <div class="vscode-item">
+                                        <span class="vscode-chevron">▶</span>
+                                        <span class="vscode-icon vscode-folder">📁</span>
+                                        <span class="vscode-name">Tables</span>
+                                        <span class="vscode-comment">// Database stuff</span>
                                     </div>
                                 </div>
 
-                                <div class="folder-item">
-                                    <span class="tree-connector"></span><i class="fas fa-folder"></i> Views/
-                                    <div class="folder-desc">HTML templates</div>
+                                <div class="vscode-item">
+                                    <span class="vscode-chevron">▶</span>
+                                    <span class="vscode-icon vscode-folder">📁</span>
+                                    <span class="vscode-name">Views</span>
+                                    <span class="vscode-comment">// HTML templates</span>
                                 </div>
                             </div>
-                        </div>
 
-                        <div style="margin-left: 30px;">
-                            <div class="folder-item ignore">
-                                <span class="tree-connector"></span><i class="fas fa-folder"></i> Core/
-                                <span class="badge ignore-badge">← IGNORE</span>
+                            <div class="vscode-item vscode-dimmed">
+                                <span class="vscode-chevron">▶</span>
+                                <span class="vscode-icon vscode-folder">📁</span>
+                                <span class="vscode-name">Core</span>
+                                <span class="vscode-badge vscode-badge-ignore">IGNORE</span>
                             </div>
 
-                            <div class="folder-item ignore">
-                                <span class="tree-connector"></span><i class="fas fa-folder"></i> Library/
-                                <span class="badge ignore-badge">← IGNORE</span>
-                            </div>
-                        </div>
-
-                        <div style="margin-left: 30px;">
-                            <div class="folder-item">
-                                <span class="tree-connector"></span><i class="fas fa-folder"></i> public/
+                            <div class="vscode-item vscode-dimmed">
+                                <span class="vscode-chevron">▶</span>
+                                <span class="vscode-icon vscode-folder">📁</span>
+                                <span class="vscode-name">Library</span>
+                                <span class="vscode-badge vscode-badge-ignore">IGNORE</span>
                             </div>
 
-                            <div style="margin-left: 30px;" class="tree-line">
-                                <div class="folder-item">
-                                    <span class="tree-connector"></span><i class="fas fa-file"></i> index.php
-                                    <div class="folder-desc">Front door (routes everything)</div>
+                            <div class="vscode-item">
+                                <span class="vscode-chevron">▼</span>
+                                <span class="vscode-icon vscode-folder">📂</span>
+                                <span class="vscode-name">public</span>
+                            </div>
+
+                            <div class="vscode-indent">
+                                <div class="vscode-item">
+                                    <span class="vscode-icon vscode-file">📄</span>
+                                    <span class="vscode-name">index.php</span>
+                                    <span class="vscode-comment">// Front door</span>
                                 </div>
                             </div>
                         </div>
@@ -762,7 +1224,7 @@ $age = 25;
                     <i class="fas fa-door-open"></i>
                     <h4>About that index.php file...</h4>
                     <p>This is where every request starts. It checks the URL and directs it to the right controller.</p>
-                    <p class="subtle">You usually don’t need to touch this file, it runs everything in the background.</p>
+                    <p class="subtle">You usually don't need to touch this file, it runs everything in the background.</p>
                 </div>
             </div>
         </div>
@@ -942,8 +1404,234 @@ class Users extends \Core\Controller {
             </div>
         </div>
 
-        <!-- Slide 18: Section Transition - Build Province -->
+        <!-- NEW SLIDE: Understanding URLs in MVC -->
         <div class="slide" data-slide="18">
+            <div class="slide-content">
+                <h1>How URLs Work in MVC</h1>
+                <p class="intro-text">The URL tells your app exactly where to go</p>
+
+                <div class="url-breakdown-box">
+                    <h3>Let's Break Down This URL:</h3>
+                    <div class="url-visual">
+                        <code class="url-full">http://mvcshell.webdev.luthot/<span class="url-controller">functions</span>/<span class="url-action">create</span></code>
+                    </div>
+
+                    <div class="url-explanation-grid">
+                        <div class="url-part">
+                            <div class="url-label controller-label">
+                                <i class="fas fa-traffic-light"></i> functions
+                            </div>
+                            <h4>Controller Name</h4>
+                            <p>Points to: <code>app/Controllers/<strong>Functions.php</strong></code></p>
+                            <p class="subtle">This is like choosing which waiter handles your order</p>
+                        </div>
+
+                        <div class="url-part">
+                            <div class="url-label action-label">
+                                <i class="fas fa-play-circle"></i> create
+                            </div>
+                            <h4>Action Name</h4>
+                            <p>Runs method: <code><strong>createAction()</strong></code> in Functions.php</p>
+                            <p class="subtle">This is like choosing what to order from the menu</p>
+                        </div>
+
+                        <div class="url-part full-width">
+                            <div class="url-label view-label">
+                                <i class="fas fa-eye"></i> Auto-loads View
+                            </div>
+                            <h4>View File</h4>
+                            <p>Displays: <code>app/Views/<strong>Functions/create.phtml</strong></code></p>
+                            <p class="subtle">The framework automatically knows which view file to show!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pattern-box">
+                    <h4><i class="fas fa-lightbulb"></i> The Pattern:</h4>
+                    <div class="pattern-formula">
+                        <code>/{controller}/{action}</code>
+                        <p>Becomes...</p>
+                        <ul class="pattern-list">
+                            <li>Controller: <code>app/Controllers/{Controller}.php</code></li>
+                            <li>Method: <code>{action}Action()</code></li>
+                            <li>View: <code>app/Views/{Controller}/{action}.phtml</code></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="example-urls">
+                    <h4>More Examples:</h4>
+                    <table class="url-examples-table">
+                        <thead>
+                            <tr>
+                                <th>URL</th>
+                                <th>Controller File</th>
+                                <th>Method</th>
+                                <th>View File</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>/users/index</code></td>
+                                <td>Users.php</td>
+                                <td>indexAction()</td>
+                                <td>Users/index.phtml</td>
+                            </tr>
+                            <tr>
+                                <td><code>/provinces/create</code></td>
+                                <td>Provinces.php</td>
+                                <td>createAction()</td>
+                                <td>Provinces/create.phtml</td>
+                            </tr>
+                            <tr>
+                                <td><code>/reports/monthly</code></td>
+                                <td>Reports.php</td>
+                                <td>monthlyAction()</td>
+                                <td>Reports/monthly.phtml</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tip-box">
+                    <i class="fas fa-rocket"></i>
+                    <strong>Pro Tip:</strong> The framework does all this routing automatically! You just need to name your files and methods correctly.
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW SLIDE: URLs with Parameters -->
+        <div class="slide" data-slide="19">
+            <div class="slide-content">
+                <h1>Passing Data Through URLs</h1>
+                <p class="intro-text">How to edit or delete a specific record</p>
+
+                <div class="url-params-box">
+                    <h3>URLs Can Carry Extra Information:</h3>
+                    <div class="url-visual">
+                        <code class="url-full">http://mvcshell.webdev.luthot/<span class="url-controller">functions</span>/<span class="url-action">update</span>/<span class="url-param">id</span>/<span class="url-value">34</span></code>
+                    </div>
+
+                    <div class="url-params-grid">
+                        <div class="param-part">
+                            <div class="param-label">
+                                <i class="fas fa-tag"></i> Parameter Name
+                            </div>
+                            <h4>id</h4>
+                            <p>The name you'll use to get this value</p>
+                            <p class="subtle">Like a variable name</p>
+                        </div>
+
+                        <div class="param-part">
+                            <div class="param-label">
+                                <i class="fas fa-hashtag"></i> Parameter Value
+                            </div>
+                            <h4>34</h4>
+                            <p>The actual data being passed</p>
+                            <p class="subtle">The ID of the function to update</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="debug-example-box">
+                    <h4><i class="fas fa-bug"></i> How to See URL Parameters in Your Code</h4>
+                    
+                    <div class="code-panel">
+                        <div class="code-header">
+                            <span><i class="fas fa-file-code"></i> Inside updateAction()</span>
+                            <button class="copy-btn" data-code="debug-params-code">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                        <pre><code id="debug-params-code" class="language-php">public function updateAction() {
+    // Get ALL parameters from the URL
+    $params = $this->getAllParams();
+    
+    // Debug: Let's see what we got!
+    print_debug($params);
+    
+    // This will show you exactly what's in the URL
+}</code></pre>
+                    </div>
+
+                    <div class="debug-output-box">
+                        <h4>What <code>print_debug($params)</code> Shows:</h4>
+                        <div class="code-panel">
+                            <pre><code class="language-php">Array
+(
+    [controller] => functions
+    [action] => update
+    [id] => 34
+)</code></pre>
+                        </div>
+                        <p class="debug-note">See? Every part of the URL becomes accessible to your code!</p>
+                    </div>
+                </div>
+
+                <div class="usage-example">
+                    <h4>Using the Parameter in Your Code:</h4>
+                    <div class="code-panel">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Getting the ID</span>
+                            <button class="copy-btn" data-code="use-param-code">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                        <pre><code id="use-param-code" class="language-php">public function updateAction() {
+    $params = $this->getAllParams();
+    
+    // Get the specific ID we need
+    $functionId = $params['id'];  // Gets 34
+    
+    // Or use it directly
+    $id = $this->params['id'];    // Shortcut way
+    
+    // Now load that record from database
+    $functionModel = new \App\Models\Tables\Functions();
+    $record = $functionModel->getById($id);
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="url-patterns-box">
+                    <h4>Common URL Patterns You'll Use:</h4>
+                    <table class="patterns-table">
+                        <thead>
+                            <tr>
+                                <th>Purpose</th>
+                                <th>URL Pattern</th>
+                                <th>How to Get Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Edit a user</td>
+                                <td><code>/users/update/id/15</code></td>
+                                <td><code>$params['id']</code></td>
+                            </tr>
+                            <tr>
+                                <td>Delete province</td>
+                                <td><code>/provinces/delete/pid/8</code></td>
+                                <td><code>$params['pid']</code></td>
+                            </tr>
+                            <tr>
+                                <td>View details</td>
+                                <td><code>/products/view/product_id/42</code></td>
+                                <td><code>$params['product_id']</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="best-practice-box">
+                    <i class="fas fa-star"></i>
+                    <strong>Pro Debugging Tip:</strong> Always use <code>print_debug($params)</code> when building new actions. It shows you exactly what data you have to work with!
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW SLIDE: Section Transition - Build Province -->
+        <div class="slide" data-slide="20">
             <div class="slide-content">
                 <div class="section-transition">
                     <i class="fas fa-hammer fa-5x"></i>
@@ -956,11 +1644,11 @@ class Users extends \Core\Controller {
             </div>
         </div>
 
-        <!-- Slide 19: Province Model -->
-        <div class="slide" data-slide="19">
+        <!-- UPDATED SLIDE: Province Model with SQL -->
+        <div class="slide" data-slide="21">
             <div class="slide-content">
                 <h1>Step 1: Create Province Model</h1>
-                <p class="intro-text">Let's handle the database stuff first</p>
+                <p class="intro-text">SQL queries belong in the Model - this is the proper way!</p>
 
                 <div class="file-location">
                     <i class="fas fa-folder-open"></i>
@@ -989,25 +1677,68 @@ class Province extends \Core\Model {
         parent::__construct();
     }
     
-    // That's it! 
-    // Parent gives us: getAll(), getRow(), 
-    // autoExecute(), delete()
+    /**
+     * Get all provinces
+     * SQL query lives here in the Model!
+     */
+    public function getAllProvinces() {
+        $query = "SELECT * FROM province ORDER BY province_name";
+        return $this->getAll($query);
+    }
+    
+    /**
+     * Get single province by ID
+     */
+    public function getProvinceById($id) {
+        $query = "SELECT * FROM province WHERE id = ?";
+        return $this->getRow($query, [$id]);
+    }
+    
+    /**
+     * Check if province code already exists
+     */
+    public function codeExists($provinceCode) {
+        $query = "SELECT COUNT(*) as count 
+                  FROM province 
+                  WHERE province_code = ?";
+        
+            $result = $this->getRow($query, [$provinceCode]);
+        }
+        
+        return $result['count'] > 0;
+    }
 }</code></pre>
                     </div>
 
-                    <div class="success-box">
-                        <i class="fas fa-check-circle"></i>
-                        <strong>Done!</strong> Simple, right? The framework does the heavy lifting.
+                    <div class="why-box">
+                        <h4><i class="fas fa-question-circle"></i> Why Put SQL in the Model?</h4>
+                        <ul>
+                            <li><strong>Organization:</strong> All database stuff stays in one place</li>
+                            <li><strong>Reusability:</strong> Other controllers can use the same methods</li>
+                            <li><strong>Testability:</strong> Easy to test database logic separately</li>
+                            <li><strong>Maintenance:</strong> Change the query once, works everywhere</li>
+                        </ul>
+                    </div>
+
+                    <div class="alternative-box">
+                        <h4><i class="fas fa-info-circle"></i> Could You Put SQL in the Controller?</h4>
+                        <p>Yes, technically you can do this:</p>
+                        <div class="code-panel">
+                            <pre><code class="language-php">// In Controller (not recommended for big projects)
+$query = "SELECT * FROM province";
+$provinces = $model->getAll($query);</code></pre>
+                        </div>
+                        <p><strong>But...</strong> for learning and best practices, we're putting SQL in the Model. It's cleaner, more professional, and easier to maintain as your project grows!</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 20: Province Controller -->
-        <div class="slide" data-slide="20">
+        <!-- UPDATED SLIDE: Province Controller Calls Model Methods -->
+        <div class="slide" data-slide="22">
             <div class="slide-content">
                 <h1>Step 2: Create Province Controller</h1>
-                <p class="intro-text">The coordinator for our provinces</p>
+                <p class="intro-text">The controller just calls the model's methods - nice and clean!</p>
 
                 <div class="file-location">
                     <i class="fas fa-folder-open"></i>
@@ -1031,49 +1762,74 @@ namespace App\Controllers;
 
 class Provinces extends \Core\Controller {
     
-    // Show all provinces
+    /**
+     * List all provinces
+     * URL: /provinces/index or just /provinces
+     */
     public function indexAction() {
         $provinceModel = new \App\Models\Tables\Province();
-        $query = "SELECT * FROM province ORDER BY province_name";
-        $this->view->provinces = $provinceModel->getAll($query);
+        
+        // Look how clean! No SQL here, just call the method
+        $this->view->provinces = $provinceModel->getAllProvinces();
+        
+        // View automatically loads: app/Views/Provinces/index.phtml
     }
     
-    // Create new province
+    /**
+     * Show create form and handle submission
+     * URL: /provinces/create
+     */
     public function createAction() {
         if ($this->getRequest()->isPost()) {
             $params = $this->getAllParams();
+            
+            $provinceModel = new \App\Models\Tables\Province();
+            
+            // Check if code already exists
+            if ($provinceModel->codeExists($params['code'])) {
+                $this->view->error = "Province code already exists!";
+                return;
+            }
             
             $data = [
                 'name' => $params['name'],
                 'code' => strtoupper($params['code'])
             ];
             
-            $provinceModel = new \App\Models\Tables\Province();
             $provinceModel->autoExecute(
-                'provinces', 
+                'province', 
                 $data, 
                 DB_AUTOQUERY_INSERT
             );
             
             $this->redirect('/provinces');
         }
+        
+        // If not POST, just show the form
+        // View loads: app/Views/Provinces/create.phtml
     }
     
-    // Update existing province
+    /**
+     * Edit existing province
+     * URL: /provinces/update/id/5
+     */
     public function updateAction() {
-        $id = $this->params['id'];
+        // Debug tip: See what's in the URL
+        $params = $this->getAllParams();
+        // print_debug($params);  // Uncomment to debug!
+        
+        $id = $params['id'];
+        $provinceModel = new \App\Models\Tables\Province();
         
         if ($this->getRequest()->isPost()) {
-            $params = $this->getAllParams();
-            
+            // Form was submitted
             $data = [
                 'name' => $params['name'],
                 'code' => strtoupper($params['code'])
             ];
             
-            $provinceModel = new \App\Models\Tables\Province();
             $provinceModel->autoExecute(
-                'provinces', 
+                'province', 
                 $data, 
                 DB_AUTOQUERY_UPDATE,
                 "id = '$id'"
@@ -1082,19 +1838,64 @@ class Provinces extends \Core\Controller {
             $this->redirect('/provinces');
         }
         
-        // Load existing data for form
-        $provinceModel = new \App\Models\Tables\Province();
-        $query = "SELECT * FROM province WHERE id = ?";
-        $this->view->province = $provinceModel->getRow($query, [$id]);
+        // Load existing data for the form
+        $this->view->province = $provinceModel->getProvinceById($id);
+        
+        // View loads: app/Views/Provinces/update.phtml
+    }
+    
+    /**
+     * Delete a province
+     * URL: /provinces/delete/id/5
+     */
+    public function deleteAction() {
+        $params = $this->getAllParams();
+        $id = $params['id'];
+        
+        if ($id) {
+            $provinceModel = new \App\Models\Tables\Province();
+            $provinceModel->delete("id = '$id'");
+        }
+        
+        $this->redirect('/provinces');
     }
 }</code></pre>
+                    </div>
+
+                    <div class="flow-explanation">
+                        <h4><i class="fas fa-route"></i> What Happens When You Visit These URLs:</h4>
+                        
+                        <div class="flow-item">
+                            <div class="flow-url"><code>/provinces</code> or <code>/provinces/index</code></div>
+                            <p>→ Runs <code>indexAction()</code> → Shows list (index.phtml)</p>
+                        </div>
+
+                        <div class="flow-item">
+                            <div class="flow-url"><code>/provinces/create</code></div>
+                            <p>→ Runs <code>createAction()</code> → Shows form (create.phtml)</p>
+                        </div>
+
+                        <div class="flow-item">
+                            <div class="flow-url"><code>/provinces/update/id/5</code></div>
+                            <p>→ Runs <code>updateAction()</code> → Gets id=5 from URL → Shows form (update.phtml)</p>
+                        </div>
+
+                        <div class="flow-item">
+                            <div class="flow-url"><code>/provinces/delete/id/5</code></div>
+                            <p>→ Runs <code>deleteAction()</code> → Gets id=5 from URL → Deletes → Redirects</p>
+                        </div>
+                    </div>
+
+                    <div class="best-practice-box">
+                        <i class="fas fa-star"></i>
+                        <strong>See the Benefits?</strong> The Controller is clean and readable. All the messy SQL lives in the Model where it belongs. This is professional code structure!
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 21: Province Views -->
-        <div class="slide" data-slide="21">
+        <!-- Province Views -->
+        <div class="slide" data-slide="23">
             <div class="slide-content">
                 <h1>Step 3: Create Province Views</h1>
                 <p class="intro-text">We need two view files: one for list, one for forms</p>
@@ -1170,6 +1971,10 @@ class Provinces extends \Core\Controller {
                         <pre><code id="form-view-code" class="language-php">&lt;div class="container"&gt;
     &lt;h2&gt;&lt;?= isset($this->province) ? 'Edit' : 'Add' ?&gt; Province&lt;/h2&gt;
     
+    &lt;?php if(isset($this->error)): ?&gt;
+        &lt;div class="alert alert-danger"&gt;&lt;?= $this->error ?&gt;&lt;/div&gt;
+    &lt;?php endif; ?&gt;
+    
     &lt;form method="POST" action=""&gt;
         &lt;div class="form-group"&gt;
             &lt;label for="name"&gt;Province Name:&lt;/label&gt;
@@ -1204,78 +2009,93 @@ class Provinces extends \Core\Controller {
 
                 <div class="info-box" style="margin-top: 20px;">
                     <i class="fas fa-info-circle"></i>
-                    <strong>Note:</strong> We're using plain HTML forms here - no JavaScript needed for basic functionality!
+                    <strong>Note:</strong> The same form file works for both create and update! It checks if <code>$this->province</code> exists to know which mode it's in.
                 </div>
             </div>
         </div>
 
-        <!-- Slide 22: Complete CRUD Operations -->
-        <div class="slide" data-slide="22">
+        <!-- UPDATED: Complete CRUD Summary -->
+        <div class="slide" data-slide="24">
             <div class="slide-content">
-                <h1>Complete CRUD Operations</h1>
-                <p class="intro-text">Let's add Delete to complete our module</p>
+                <h1>You Now Have Complete CRUD!</h1>
+                <p class="intro-text">Let's see what you've built</p>
 
-                <button class="reveal-btn" data-target="delete-action">
-                    <i class="fas fa-eye"></i> Show Delete Action
-                </button>
-
-                <div id="delete-action" class="hidden-content">
-                    <div class="code-panel">
-                        <div class="code-header">
-                            <span><i class="fas fa-file-code"></i> Add to Provinces Controller</span>
-                            <button class="copy-btn" data-code="delete-code">
-                                <i class="fas fa-copy"></i> Copy
-                            </button>
+                <div class="crud-summary">
+                    <div class="crud-grid">
+                        <div class="crud-item">
+                            <i class="fas fa-plus-circle"></i>
+                            <strong>Create</strong>
+                            <p>URL: /provinces/create</p>
+                            <p class="small-text">Add new provinces</p>
                         </div>
-                        <pre><code id="delete-code" class="language-php">// Delete province
-public function deleteAction() {
-    $id = $this->getAllParams()['id'];
-    
-    if ($id) {
-        $provinceModel = new \App\Models\Tables\Province();
-        $provinceModel->delete("id = '$id'");
-    }
-    
-    $this->redirect('/provinces');
-}</code></pre>
-                    </div>
-
-                    <div class="crud-summary">
-                        <h4>You now have a complete CRUD module!</h4>
-                        <div class="crud-grid">
-                            <div class="crud-item">
-                                <i class="fas fa-plus-circle"></i>
-                                <strong>Create</strong>
-                                <p>Add new provinces</p>
-                            </div>
-                            <div class="crud-item">
-                                <i class="fas fa-eye"></i>
-                                <strong>Read</strong>
-                                <p>View all provinces</p>
-                            </div>
-                            <div class="crud-item">
-                                <i class="fas fa-edit"></i>
-                                <strong>Update</strong>
-                                <p>Edit existing provinces</p>
-                            </div>
-                            <div class="crud-item">
-                                <i class="fas fa-trash"></i>
-                                <strong>Delete</strong>
-                                <p>Remove provinces</p>
-                            </div>
+                        <div class="crud-item">
+                            <i class="fas fa-eye"></i>
+                            <strong>Read</strong>
+                            <p>URL: /provinces</p>
+                            <p class="small-text">View all provinces</p>
+                        </div>
+                        <div class="crud-item">
+                            <i class="fas fa-edit"></i>
+                            <strong>Update</strong>
+                            <p>URL: /provinces/update/id/5</p>
+                            <p class="small-text">Edit existing provinces</p>
+                        </div>
+                        <div class="crud-item">
+                            <i class="fas fa-trash"></i>
+                            <strong>Delete</strong>
+                            <p>URL: /provinces/delete/id/5</p>
+                            <p class="small-text">Remove provinces</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- <div class="tip-box">
-                    <i class="fas fa-rocket"></i>
-                    <strong>What's Next?</strong> Try building a Cities module that links to Provinces. You've got the pattern now!
-                </div> -->
+                <div class="recap-box">
+                    <h3><i class="fas fa-check-circle"></i> What You've Learned:</h3>
+                    
+                    <div class="recap-item">
+                        <h4>1. Model</h4>
+                        <p>✓ SQL queries live here</p>
+                        <p>✓ Methods return data</p>
+                        <p>✓ Reusable across controllers</p>
+                    </div>
+
+                    <div class="recap-item">
+                        <h4>2. Controller</h4>
+                        <p>✓ Calls model methods (no SQL)</p>
+                        <p>✓ Handles form submissions</p>
+                        <p>✓ Passes data to views</p>
+                    </div>
+
+                    <div class="recap-item">
+                        <h4>3. View</h4>
+                        <p>✓ Displays data from controller</p>
+                        <p>✓ Shows forms to users</p>
+                        <p>✓ Just HTML + tiny bits of PHP</p>
+                    </div>
+
+                    <div class="recap-item">
+                        <h4>4. URLs</h4>
+                        <p>✓ /{controller}/{action}</p>
+                        <p>✓ Pass data: /controller/action/key/value</p>
+                        <p>✓ Framework routes automatically</p>
+                    </div>
+                </div>
+
+                <div class="next-practice-box">
+                    <h4><i class="fas fa-dumbbell"></i> Practice Exercise:</h4>
+                    <p>Try building a <strong>Cities</strong> module that links to Provinces!</p>
+                    <ul>
+                        <li>City name</li>
+                        <li>Province (dropdown list)</li>
+                        <li>Full CRUD operations</li>
+                    </ul>
+                    <p class="subtle">You've got all the patterns now - you can do this!</p>
+                </div>
             </div>
         </div>
 
-        <!-- Slide 23: Final Summary -->
-        <div class="slide" data-slide="23">
+        <!-- Final Summary -->
+        <div class="slide" data-slide="25">
             <div class="slide-content">
                 <div class="summary-screen">
                     <h1>You Made It!</h1>
@@ -1300,9 +2120,19 @@ public function deleteAction() {
                             <p>Model, View, Controller</p>
                         </div>
                         <div class="learned-item">
-                            <i class="fas fa-folder fa-2x"></i>
-                            <h4>Framework Structure</h4>
-                            <p>Where everything goes</p>
+                            <i class="fas fa-link fa-2x"></i>
+                            <h4>URL Structure</h4>
+                            <p>How routing works</p>
+                        </div>
+                        <div class="learned-item">
+                            <i class="fas fa-database fa-2x"></i>
+                            <h4>SQL in Models</h4>
+                            <p>Proper code organization</p>
+                        </div>
+                        <div class="learned-item">
+                            <i class="fas fa-bug fa-2x"></i>
+                            <h4>Debugging</h4>
+                            <p>print_debug() techniques</p>
                         </div>
                     </div>
 
@@ -1324,11 +2154,6 @@ public function deleteAction() {
                     <div class="thanks">
                         <h2>Questions?</h2>
                         <p>Now's the time to ask - no question is too simple!</p>
-                        <!-- <div class="contact-info">
-                            <p><i class="fas fa-envelope"></i> Keep this presentation handy</p>
-                            <p><i class="fas fa-book-open"></i> Reference it while coding</p>
-                            <p><i class="fas fa-hands-helping"></i> Help each other out</p>
-                        </div> -->
                     </div>
                 </div>
             </div>
@@ -1340,7 +2165,7 @@ public function deleteAction() {
         <button class="nav-btn" id="prevBtn">
             <i class="fas fa-chevron-left"></i> Previous
         </button>
-        <span class="nav-counter" id="navCounter">1 / 23</span>
+        <span class="nav-counter" id="navCounter">1 / 25</span>
         <button class="nav-btn" id="nextBtn">
             Next <i class="fas fa-chevron-right"></i>
         </button>
