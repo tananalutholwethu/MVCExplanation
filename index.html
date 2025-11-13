@@ -1404,234 +1404,8 @@ class Users extends \Core\Controller {
             </div>
         </div>
 
-        <!-- NEW SLIDE: Understanding URLs in MVC -->
-        <div class="slide" data-slide="18">
-            <div class="slide-content">
-                <h1>How URLs Work in MVC</h1>
-                <p class="intro-text">The URL tells your app exactly where to go</p>
-
-                <div class="url-breakdown-box">
-                    <h3>Let's Break Down This URL:</h3>
-                    <div class="url-visual">
-                        <code class="url-full">http://mvcshell.webdev.luthot/<span class="url-controller">functions</span>/<span class="url-action">create</span></code>
-                    </div>
-
-                    <div class="url-explanation-grid">
-                        <div class="url-part">
-                            <div class="url-label controller-label">
-                                <i class="fas fa-traffic-light"></i> functions
-                            </div>
-                            <h4>Controller Name</h4>
-                            <p>Points to: <code>app/Controllers/<strong>Functions.php</strong></code></p>
-                            <p class="subtle">This is like choosing which waiter handles your order</p>
-                        </div>
-
-                        <div class="url-part">
-                            <div class="url-label action-label">
-                                <i class="fas fa-play-circle"></i> create
-                            </div>
-                            <h4>Action Name</h4>
-                            <p>Runs method: <code><strong>createAction()</strong></code> in Functions.php</p>
-                            <p class="subtle">This is like choosing what to order from the menu</p>
-                        </div>
-
-                        <div class="url-part full-width">
-                            <div class="url-label view-label">
-                                <i class="fas fa-eye"></i> Auto-loads View
-                            </div>
-                            <h4>View File</h4>
-                            <p>Displays: <code>app/Views/<strong>Functions/create.phtml</strong></code></p>
-                            <p class="subtle">The framework automatically knows which view file to show!</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pattern-box">
-                    <h4><i class="fas fa-lightbulb"></i> The Pattern:</h4>
-                    <div class="pattern-formula">
-                        <code>/{controller}/{action}</code>
-                        <p>Becomes...</p>
-                        <ul class="pattern-list">
-                            <li>Controller: <code>app/Controllers/{Controller}.php</code></li>
-                            <li>Method: <code>{action}Action()</code></li>
-                            <li>View: <code>app/Views/{Controller}/{action}.phtml</code></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="example-urls">
-                    <h4>More Examples:</h4>
-                    <table class="url-examples-table">
-                        <thead>
-                            <tr>
-                                <th>URL</th>
-                                <th>Controller File</th>
-                                <th>Method</th>
-                                <th>View File</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>/users/index</code></td>
-                                <td>Users.php</td>
-                                <td>indexAction()</td>
-                                <td>Users/index.phtml</td>
-                            </tr>
-                            <tr>
-                                <td><code>/provinces/create</code></td>
-                                <td>Provinces.php</td>
-                                <td>createAction()</td>
-                                <td>Provinces/create.phtml</td>
-                            </tr>
-                            <tr>
-                                <td><code>/reports/monthly</code></td>
-                                <td>Reports.php</td>
-                                <td>monthlyAction()</td>
-                                <td>Reports/monthly.phtml</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="tip-box">
-                    <i class="fas fa-rocket"></i>
-                    <strong>Pro Tip:</strong> The framework does all this routing automatically! You just need to name your files and methods correctly.
-                </div>
-            </div>
-        </div>
-
-        <!-- NEW SLIDE: URLs with Parameters -->
-        <div class="slide" data-slide="19">
-            <div class="slide-content">
-                <h1>Passing Data Through URLs</h1>
-                <p class="intro-text">How to edit or delete a specific record</p>
-
-                <div class="url-params-box">
-                    <h3>URLs Can Carry Extra Information:</h3>
-                    <div class="url-visual">
-                        <code class="url-full">http://mvcshell.webdev.luthot/<span class="url-controller">functions</span>/<span class="url-action">update</span>/<span class="url-param">id</span>/<span class="url-value">34</span></code>
-                    </div>
-
-                    <div class="url-params-grid">
-                        <div class="param-part">
-                            <div class="param-label">
-                                <i class="fas fa-tag"></i> Parameter Name
-                            </div>
-                            <h4>id</h4>
-                            <p>The name you'll use to get this value</p>
-                            <p class="subtle">Like a variable name</p>
-                        </div>
-
-                        <div class="param-part">
-                            <div class="param-label">
-                                <i class="fas fa-hashtag"></i> Parameter Value
-                            </div>
-                            <h4>34</h4>
-                            <p>The actual data being passed</p>
-                            <p class="subtle">The ID of the function to update</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="debug-example-box">
-                    <h4><i class="fas fa-bug"></i> How to See URL Parameters in Your Code</h4>
-                    
-                    <div class="code-panel">
-                        <div class="code-header">
-                            <span><i class="fas fa-file-code"></i> Inside updateAction()</span>
-                            <button class="copy-btn" data-code="debug-params-code">
-                                <i class="fas fa-copy"></i> Copy
-                            </button>
-                        </div>
-                        <pre><code id="debug-params-code" class="language-php">public function updateAction() {
-    // Get ALL parameters from the URL
-    $params = $this->getAllParams();
-    
-    // Debug: Let's see what we got!
-    print_debug($params);
-    
-    // This will show you exactly what's in the URL
-}</code></pre>
-                    </div>
-
-                    <div class="debug-output-box">
-                        <h4>What <code>print_debug($params)</code> Shows:</h4>
-                        <div class="code-panel">
-                            <pre><code class="language-php">Array
-(
-    [controller] => functions
-    [action] => update
-    [id] => 34
-)</code></pre>
-                        </div>
-                        <p class="debug-note">See? Every part of the URL becomes accessible to your code!</p>
-                    </div>
-                </div>
-
-                <div class="usage-example">
-                    <h4>Using the Parameter in Your Code:</h4>
-                    <div class="code-panel">
-                        <div class="code-header">
-                            <span><i class="fas fa-code"></i> Getting the ID</span>
-                            <button class="copy-btn" data-code="use-param-code">
-                                <i class="fas fa-copy"></i> Copy
-                            </button>
-                        </div>
-                        <pre><code id="use-param-code" class="language-php">public function updateAction() {
-    $params = $this->getAllParams();
-    
-    // Get the specific ID we need
-    $functionId = $params['id'];  // Gets 34
-    
-    // Or use it directly
-    $id = $this->params['id'];    // Shortcut way
-    
-    // Now load that record from database
-    $functionModel = new \App\Models\Tables\Functions();
-    $record = $functionModel->getById($id);
-}</code></pre>
-                    </div>
-                </div>
-
-                <div class="url-patterns-box">
-                    <h4>Common URL Patterns You'll Use:</h4>
-                    <table class="patterns-table">
-                        <thead>
-                            <tr>
-                                <th>Purpose</th>
-                                <th>URL Pattern</th>
-                                <th>How to Get Value</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Edit a user</td>
-                                <td><code>/users/update/id/15</code></td>
-                                <td><code>$params['id']</code></td>
-                            </tr>
-                            <tr>
-                                <td>Delete province</td>
-                                <td><code>/provinces/delete/pid/8</code></td>
-                                <td><code>$params['pid']</code></td>
-                            </tr>
-                            <tr>
-                                <td>View details</td>
-                                <td><code>/products/view/product_id/42</code></td>
-                                <td><code>$params['product_id']</code></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="best-practice-box">
-                    <i class="fas fa-star"></i>
-                    <strong>Pro Debugging Tip:</strong> Always use <code>print_debug($params)</code> when building new actions. It shows you exactly what data you have to work with!
-                </div>
-            </div>
-        </div>
-
         <!-- NEW SLIDE: Section Transition - Build Province -->
-        <div class="slide" data-slide="20">
+        <div class="slide" data-slide="18">
             <div class="slide-content">
                 <div class="section-transition">
                     <i class="fas fa-hammer fa-5x"></i>
@@ -1645,7 +1419,7 @@ class Users extends \Core\Controller {
         </div>
 
         <!-- UPDATED SLIDE: Province Model with SQL -->
-        <div class="slide" data-slide="21">
+        <div class="slide" data-slide="19">
             <div class="slide-content">
                 <h1>Step 1: Create Province Model</h1>
                 <p class="intro-text">SQL queries belong in the Model - this is the proper way!</p>
@@ -1703,8 +1477,7 @@ class Province extends \Core\Model {
                   WHERE province_code = ?";
         
             $result = $this->getRow($query, [$provinceCode]);
-        }
-        
+
         return $result['count'] > 0;
     }
 }</code></pre>
@@ -1735,7 +1508,7 @@ $provinces = $model->getAll($query);</code></pre>
         </div>
 
         <!-- UPDATED SLIDE: Province Controller Calls Model Methods -->
-        <div class="slide" data-slide="22">
+        <div class="slide" data-slide="20">
             <div class="slide-content">
                 <h1>Step 2: Create Province Controller</h1>
                 <p class="intro-text">The controller just calls the model's methods - nice and clean!</p>
@@ -1895,7 +1668,7 @@ class Provinces extends \Core\Controller {
         </div>
 
         <!-- Province Views -->
-        <div class="slide" data-slide="23">
+        <div class="slide" data-slide="21">
             <div class="slide-content">
                 <h1>Step 3: Create Province Views</h1>
                 <p class="intro-text">We need two view files: one for list, one for forms</p>
@@ -2013,7 +1786,231 @@ class Provinces extends \Core\Controller {
                 </div>
             </div>
         </div>
+        <!-- NEW SLIDE: Understanding URLs in MVC -->
+        <div class="slide" data-slide="22">
+            <div class="slide-content">
+                <h1>How URLs Work in MVC</h1>
+                <p class="intro-text">The URL tells your app exactly where to go</p>
 
+                <div class="url-breakdown-box">
+                    <h3>Let's Break Down This URL:</h3>
+                    <div class="url-visual">
+                        <code class="url-full">http://mvcshell.webdev.luthot/<span class="url-controller">functions</span>/<span class="url-action">create</span></code>
+                    </div>
+
+                    <div class="url-explanation-grid">
+                        <div class="url-part">
+                            <div class="url-label controller-label">
+                                <i class="fas fa-traffic-light"></i> functions
+                            </div>
+                            <h4>Controller Name</h4>
+                            <p>Points to: <code>app/Controllers/<strong>Functions.php</strong></code></p>
+                            <p class="subtle">This is like choosing which waiter handles your order</p>
+                        </div>
+
+                        <div class="url-part">
+                            <div class="url-label action-label">
+                                <i class="fas fa-play-circle"></i> create
+                            </div>
+                            <h4>Action Name</h4>
+                            <p>Runs method: <code><strong>createAction()</strong></code> in Functions.php</p>
+                            <p class="subtle">This is like choosing what to order from the menu</p>
+                        </div>
+
+                        <div class="url-part full-width">
+                            <div class="url-label view-label">
+                                <i class="fas fa-eye"></i> Auto-loads View
+                            </div>
+                            <h4>View File</h4>
+                            <p>Displays: <code>app/Views/<strong>Functions/create.phtml</strong></code></p>
+                            <p class="subtle">The framework automatically knows which view file to show!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pattern-box">
+                    <h4><i class="fas fa-lightbulb"></i> The Pattern:</h4>
+                    <div class="pattern-formula">
+                        <code>/{controller}/{action}</code>
+                        <p>Becomes...</p>
+                        <ul class="pattern-list">
+                            <li>Controller: <code>app/Controllers/{Controller}.php</code></li>
+                            <li>Method: <code>{action}Action()</code></li>
+                            <li>View: <code>app/Views/{Controller}/{action}.phtml</code></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="example-urls">
+                    <h4>More Examples:</h4>
+                    <table class="url-examples-table">
+                        <thead>
+                            <tr>
+                                <th>URL</th>
+                                <th>Controller File</th>
+                                <th>Method</th>
+                                <th>View File</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>/users</code></td>
+                                <td>Users.php</td>
+                                <td>indexAction()</td>
+                                <td>Users/index.phtml</td>
+                            </tr>
+                            <tr>
+                                <td><code>/provinces/create</code></td>
+                                <td>Provinces.php</td>
+                                <td>createAction()</td>
+                                <td>Provinces/create.phtml</td>
+                            </tr>
+                            <tr>
+                                <td><code>/reports/monthly</code></td>
+                                <td>Reports.php</td>
+                                <td>monthlyAction()</td>
+                                <td>Reports/monthly.phtml</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tip-box">
+                    <i class="fas fa-rocket"></i>
+                    <strong>Pro Tip:</strong> The framework does all this routing automatically! You just need to name your files and methods correctly.
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW SLIDE: URLs with Parameters -->
+        <div class="slide" data-slide="23">
+            <div class="slide-content">
+                <h1>Passing Data Through URLs</h1>
+                <p class="intro-text">How to edit or delete a specific record</p>
+
+                <div class="url-params-box">
+                    <h3>URLs Can Carry Extra Information:</h3>
+                    <div class="url-visual">
+                        <code class="url-full">http://mvcshell.webdev.luthot/<span class="url-controller">functions</span>/<span class="url-action">update</span>/<span class="url-param">id</span>/<span class="url-value">34</span></code>
+                    </div>
+
+                    <div class="url-params-grid">
+                        <div class="param-part">
+                            <div class="param-label">
+                                <i class="fas fa-tag"></i> Parameter Name
+                            </div>
+                            <h4>id</h4>
+                            <p>The name you'll use to get this value</p>
+                            <p class="subtle">Like a variable name</p>
+                        </div>
+
+                        <div class="param-part">
+                            <div class="param-label">
+                                <i class="fas fa-hashtag"></i> Parameter Value
+                            </div>
+                            <h4>34</h4>
+                            <p>The actual data being passed</p>
+                            <p class="subtle">The ID of the function to update</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="debug-example-box">
+                    <h4><i class="fas fa-bug"></i> How to See URL Parameters in Your Code</h4>
+                    
+                    <div class="code-panel">
+                        <div class="code-header">
+                            <span><i class="fas fa-file-code"></i> Inside updateAction()</span>
+                            <button class="copy-btn" data-code="debug-params-code">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                        <pre><code id="debug-params-code" class="language-php">public function updateAction() {
+    // Get ALL parameters from the URL
+    $params = $this->getAllParams();
+    
+    // Debug: Let's see what we got!
+    print_debug($params);
+    
+    // This will show you exactly what's in the URL
+}</code></pre>
+                    </div>
+
+                    <div class="debug-output-box">
+                        <h4>What <code>print_debug($params)</code> Shows:</h4>
+                        <div class="code-panel">
+                            <pre><code class="language-php">Array
+(
+    [controller] => functions
+    [action] => update
+    [id] => 34
+)</code></pre>
+                        </div>
+                        <p class="debug-note">See? Every part of the URL becomes accessible to your code!</p>
+                    </div>
+                </div>
+
+                <div class="usage-example">
+                    <h4>Using the Parameter in Your Code:</h4>
+                    <div class="code-panel">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Getting the ID</span>
+                            <button class="copy-btn" data-code="use-param-code">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                        <pre><code id="use-param-code" class="language-php">public function updateAction() {
+    $params = $this->getAllParams();
+    
+    // Get the specific ID we need
+    $functionId = $params['id'];  // Gets 34
+    
+    // Or use it directly
+    $id = $this->params['id'];    // Shortcut way
+    
+    // Now load that record from database
+    $functionModel = new \App\Models\Tables\Functions();
+    $record = $functionModel->getById($id);
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="url-patterns-box">
+                    <h4>Common URL Patterns You'll Use:</h4>
+                    <table class="patterns-table">
+                        <thead>
+                            <tr>
+                                <th>Purpose</th>
+                                <th>URL Pattern</th>
+                                <th>How to Get Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Edit a user</td>
+                                <td><code>/users/update/id/15</code></td>
+                                <td><code>$params['id']</code></td>
+                            </tr>
+                            <tr>
+                                <td>Delete province</td>
+                                <td><code>/provinces/delete/pid/8</code></td>
+                                <td><code>$params['pid']</code></td>
+                            </tr>
+                            <tr>
+                                <td>View details</td>
+                                <td><code>/products/view/product_id/42</code></td>
+                                <td><code>$params['product_id']</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="best-practice-box">
+                    <i class="fas fa-star"></i>
+                    <strong>Pro Debugging Tip:</strong> Always use <code>print_debug($params)</code> when building new actions. It shows you exactly what data you have to work with!
+                </div>
+            </div>
+        </div>
         <!-- UPDATED: Complete CRUD Summary -->
         <div class="slide" data-slide="24">
             <div class="slide-content">
@@ -2080,17 +2077,6 @@ class Provinces extends \Core\Controller {
                         <p>✓ Framework routes automatically</p>
                     </div>
                 </div>
-
-                <div class="next-practice-box">
-                    <h4><i class="fas fa-dumbbell"></i> Practice Exercise:</h4>
-                    <p>Try building a <strong>Cities</strong> module that links to Provinces!</p>
-                    <ul>
-                        <li>City name</li>
-                        <li>Province (dropdown list)</li>
-                        <li>Full CRUD operations</li>
-                    </ul>
-                    <p class="subtle">You've got all the patterns now - you can do this!</p>
-                </div>
             </div>
         </div>
 
@@ -2134,21 +2120,6 @@ class Provinces extends \Core\Controller {
                             <h4>Debugging</h4>
                             <p>print_debug() techniques</p>
                         </div>
-                    </div>
-
-                    <div class="next-steps">
-                        <h3>What's Next?</h3>
-                        <ul>
-                            <li><i class="fas fa-book"></i> Take your formal PHP course</li>
-                            <li><i class="fas fa-code"></i> Practice by building more CRUD modules</li>
-                            <li><i class="fas fa-project-diagram"></i> Start migrating the Refresh+ system</li>
-                            <li><i class="fas fa-users"></i> Ask your teammates for help - you're not alone!</li>
-                        </ul>
-                    </div>
-
-                    <div class="remember-box">
-                        <i class="fas fa-heart"></i>
-                        <p><strong>Remember:</strong> You already know how to code. This is just a new way to organize it. The logic is the same, just the structure is different!</p>
                     </div>
 
                     <div class="thanks">
