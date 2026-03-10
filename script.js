@@ -6,12 +6,12 @@ $(document).ready(function () {
     // CONFIGURATION
     // ============================================
     const CONFIG = {
-        totalSlides: 25,
+        totalSlides: 30,
         currentSlide: 1,
         swipeThreshold: 50,
         copyFeedbackDuration: 2000,
         storageKey: 'phpMvcTraining_currentSlide',
-        lockedAfterSlide: 30
+        lockedAfterSlide: 29
     };
 
     // ============================================

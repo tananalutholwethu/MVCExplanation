@@ -8,398 +8,1022 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/dracula.min.css" rel="stylesheet">
     <style>
-    /* Existing styles from styles.css would go here */
-    /* URL Breakdown Styles */
-    .url-breakdown-box {
-        background: #f7fafc;
-        padding: 32px;
-        border-radius: 12px;
-        margin: 32px 0;
-        border: 2px solid #e2e8f0;
-    }
+        .url-breakdown-box {
+            background: #f7fafc;
+            padding: 32px;
+            border-radius: 12px;
+            margin: 32px 0;
+            border: 2px solid #e2e8f0;
+        }
 
-    .url-visual {
-        background: #282a36;
-        padding: 20px;
-        border-radius: 8px;
-        margin: 20px 0;
-        text-align: center;
-    }
+        .tabs-container {
+            display: flex;
+            gap: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
 
-    .url-full {
-        font-family: 'Monaco', 'Consolas', monospace;
-        font-size: 1.125rem;
-        color: #f8f8f2;
-        word-break: break-all;
-    }
+        .tab-btn {
+            padding: 10px 24px;
+            border: none;
+            background: none;
+            color: #718096;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: color 0.2s, border-color 0.2s;
+        }
 
-    .url-controller {
-        background: #4299e1;
-        padding: 2px 8px;
-        border-radius: 4px;
-        color: white;
-        font-weight: bold;
-    }
+        .tab-btn:hover {
+            color: #2d3748;
+        }
 
-    .url-action {
-        background: #48bb78;
-        padding: 2px 8px;
-        border-radius: 4px;
-        color: white;
-        font-weight: bold;
-    }
+        .tab-btn.active {
+            color: #4361ee;
+            border-bottom-color: #4361ee;
+        }
 
-    .url-param {
-        background: #ed8936;
-        padding: 2px 8px;
-        border-radius: 4px;
-        color: white;
-        font-weight: bold;
-    }
+        .tab-content {
+            display: none;
+        }
 
-    .url-value {
-        background: #9f7aea;
-        padding: 2px 8px;
-        border-radius: 4px;
-        color: white;
-        font-weight: bold;
-    }
+        .tab-content.active {
+            display: block;
+        }
 
-    .url-explanation-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-        margin-top: 24px;
-    }
+        .url-visual {
+            background: #282a36;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
 
-    .url-part {
-        background: white;
-        padding: 20px;
-        border-radius: 8px;
-        border: 2px solid #e2e8f0;
-    }
+        .url-full {
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 1.125rem;
+            color: #f8f8f2;
+            word-break: break-all;
+        }
 
-    .url-part.full-width {
-        grid-column: 1 / -1;
-    }
+        .url-controller {
+            background: #4299e1;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+        }
 
-    .url-label {
-        display: inline-block;
-        padding: 8px 16px;
-        border-radius: 6px;
-        font-weight: bold;
-        margin-bottom: 12px;
-        font-size: 1.125rem;
-    }
+        .url-action {
+            background: #48bb78;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+        }
 
-    .controller-label {
-        background: #ebf8ff;
-        color: #2c5282;
-    }
+        .url-param {
+            background: #ed8936;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+        }
 
-    .action-label {
-        background: #c6f6d5;
-        color: #22543d;
-    }
+        .url-value {
+            background: #9f7aea;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+        }
 
-    .view-label {
-        background: #faf5ff;
-        color: #553c9a;
-    }
+        .url-explanation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 24px;
+        }
 
-    .param-label {
-        background: #fffaf0;
-        color: #7c2d12;
-    }
+        .url-part {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+        }
 
-    .pattern-box {
-        background: #faf5ff;
-        padding: 24px;
-        border-radius: 12px;
-        margin: 24px 0;
-        border-left: 4px solid #9f7aea;
-    }
+        .url-part.full-width {
+            grid-column: 1 / -1;
+        }
 
-    .pattern-formula {
-        background: white;
-        padding: 20px;
-        border-radius: 8px;
-        margin-top: 16px;
-        text-align: center;
-    }
+        .url-label {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            font-size: 1.125rem;
+        }
 
-    .pattern-formula code {
-        font-size: 1.25rem;
-        background: #282a36;
-        color: #50fa7b;
-        padding: 8px 16px;
-        border-radius: 6px;
-        display: inline-block;
-        margin: 12px 0;
-    }
+        .controller-label {
+            background: #ebf8ff;
+            color: #2c5282;
+        }
 
-    .pattern-list {
-        text-align: left;
-        margin-top: 16px;
-        list-style: none;
-        padding: 0;
-    }
+        .action-label {
+            background: #c6f6d5;
+            color: #22543d;
+        }
 
-    .pattern-list li {
-        padding: 8px 0;
-        color: #2d3748;
-    }
+        .view-label {
+            background: #faf5ff;
+            color: #553c9a;
+        }
 
-    .pattern-list code {
-        background: #edf2f7;
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-size: 0.875rem;
-        color: #e53e3e;
-    }
+        .param-label {
+            background: #fffaf0;
+            color: #7c2d12;
+        }
 
-    .url-examples-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 16px;
-    }
+        .pattern-box {
+            background: #faf5ff;
+            padding: 24px;
+            border-radius: 12px;
+            margin: 24px 0;
+            border-left: 4px solid #9f7aea;
+        }
 
-    .url-examples-table th,
-    .url-examples-table td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid #e2e8f0;
-    }
+        .pattern-formula {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 16px;
+            text-align: center;
+        }
 
-    .url-examples-table th {
-        background: #edf2f7;
-        font-weight: 600;
-        color: #2d3748;
-    }
+        .pattern-formula code {
+            font-size: 1.25rem;
+            background: #282a36;
+            color: #50fa7b;
+            padding: 8px 16px;
+            border-radius: 6px;
+            display: inline-block;
+            margin: 12px 0;
+        }
 
-    .url-examples-table code {
-        background: #282a36;
-        color: #50fa7b;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 0.875rem;
-    }
+        .pattern-list {
+            text-align: left;
+            margin-top: 16px;
+            list-style: none;
+            padding: 0;
+        }
 
-    /* URL Parameters Styles */
-    .url-params-box {
-        background: #fff5f7;
-        padding: 32px;
-        border-radius: 12px;
-        margin: 32px 0;
-        border: 2px solid #fc8181;
-    }
+        .pattern-list li {
+            padding: 8px 0;
+            color: #2d3748;
+        }
 
-    .url-params-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-        margin-top: 24px;
-    }
+        .pattern-list code {
+            background: #edf2f7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            color: #e53e3e;
+        }
 
-    .param-part {
-        background: white;
-        padding: 20px;
-        border-radius: 8px;
-        border: 2px solid #feb2b2;
-    }
+        .url-examples-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
 
-    .debug-example-box {
-        background: #fffaf0;
-        padding: 32px;
-        border-radius: 12px;
-        margin: 32px 0;
-        border-left: 4px solid #ed8936;
-    }
+        .url-examples-table th,
+        .url-examples-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
 
-    .debug-output-box {
-        background: #f7fafc;
-        padding: 20px;
-        border-radius: 8px;
-        margin-top: 20px;
-    }
+        .url-examples-table th {
+            background: #edf2f7;
+            font-weight: 600;
+            color: #2d3748;
+        }
 
-    .debug-note {
-        color: #4a5568;
-        font-style: italic;
-        margin-top: 12px;
-        padding: 12px;
-        background: white;
-        border-radius: 6px;
-    }
+        .url-examples-table code {
+            background: #282a36;
+            color: #50fa7b;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
 
-    .usage-example {
-        background: #ebf8ff;
-        padding: 24px;
-        border-radius: 12px;
-        margin-top: 24px;
-    }
+        /* URL Parameters Styles */
+        .url-params-box {
+            background: #fff5f7;
+            padding: 32px;
+            border-radius: 12px;
+            margin: 32px 0;
+            border: 2px solid #fc8181;
+        }
 
-    .patterns-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 16px;
-    }
+        .url-params-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 24px;
+        }
 
-    .patterns-table th,
-    .patterns-table td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid #e2e8f0;
-    }
+        .param-part {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #feb2b2;
+        }
 
-    .patterns-table th {
-        background: #2d3748;
-        color: white;
-        font-weight: 600;
-    }
+        .debug-example-box {
+            background: #fffaf0;
+            padding: 32px;
+            border-radius: 12px;
+            margin: 32px 0;
+            border-left: 4px solid #ed8936;
+        }
 
-    .patterns-table code {
-        background: #282a36;
-        color: #50fa7b;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 0.875rem;
-    }
+        .debug-output-box {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
 
-    /* Why Box */
-    .why-box {
-        background: #faf5ff;
-        padding: 24px;
-        border-radius: 12px;
-        margin-top: 24px;
-        border-left: 4px solid #9f7aea;
-    }
+        .debug-note {
+            color: #4a5568;
+            font-style: italic;
+            margin-top: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 6px;
+        }
 
-    .why-box h4 {
-        color: #553c9a;
-        margin-bottom: 16px;
-    }
+        .usage-example {
+            background: #ebf8ff;
+            padding: 24px;
+            border-radius: 12px;
+            margin-top: 24px;
+        }
 
-    .why-box ul {
-        list-style: none;
-        padding: 0;
-    }
+        .patterns-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
 
-    .why-box li {
-        padding: 8px 0;
-        color: #2d3748;
-    }
+        .patterns-table th,
+        .patterns-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
 
-    /* Alternative Box */
-    .alternative-box {
-        background: #fff5f7;
-        padding: 24px;
-        border-radius: 12px;
-        margin-top: 24px;
-        border: 2px dashed #fc8181;
-    }
+        .patterns-table th {
+            background: #2d3748;
+            color: white;
+            font-weight: 600;
+        }
 
-    .alternative-box h4 {
-        color: #c53030;
-        margin-bottom: 12px;
-    }
+        .patterns-table code {
+            background: #282a36;
+            color: #50fa7b;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
 
-    /* Flow Explanation */
-    .flow-explanation {
-        background: #f7fafc;
-        padding: 24px;
-        border-radius: 12px;
-        margin-top: 24px;
-    }
+        /* Why Box */
+        .why-box {
+            background: #faf5ff;
+            padding: 24px;
+            border-radius: 12px;
+            margin-top: 24px;
+            border-left: 4px solid #9f7aea;
+        }
 
-    .flow-item {
-        background: white;
-        padding: 16px;
-        border-radius: 8px;
-        margin: 12px 0;
-        border-left: 4px solid #4299e1;
-    }
+        .why-box h4 {
+            color: #553c9a;
+            margin-bottom: 16px;
+        }
 
-    .flow-url {
-        font-family: 'Monaco', 'Consolas', monospace;
-        background: #282a36;
-        color: #50fa7b;
-        padding: 8px 12px;
-        border-radius: 6px;
-        display: inline-block;
-        margin-bottom: 8px;
-        font-size: 0.9375rem;
-    }
+        .why-box ul {
+            list-style: none;
+            padding: 0;
+        }
 
-    /* Recap Box */
-    .recap-box {
-        background: #c6f6d5;
-        padding: 32px;
-        border-radius: 12px;
-        margin: 32px 0;
-    }
+        .why-box li {
+            padding: 8px 0;
+            color: #2d3748;
+        }
 
-    .recap-box h3 {
-        color: #22543d;
-        margin-bottom: 24px;
-        text-align: center;
-    }
+        /* Alternative Box */
+        .alternative-box {
+            background: #fff5f7;
+            padding: 24px;
+            border-radius: 12px;
+            margin-top: 24px;
+            border: 2px dashed #fc8181;
+        }
 
-    .recap-item {
-        background: white;
-        padding: 20px;
-        border-radius: 8px;
-        margin: 16px 0;
-        border-left: 4px solid #48bb78;
-    }
+        .alternative-box h4 {
+            color: #c53030;
+            margin-bottom: 12px;
+        }
 
-    .recap-item h4 {
-        color: #2f855a;
-        margin-bottom: 12px;
-    }
+        /* Flow Explanation */
+        .flow-explanation {
+            background: #f7fafc;
+            padding: 24px;
+            border-radius: 12px;
+            margin-top: 24px;
+        }
 
-    .recap-item p {
-        margin: 4px 0;
-        color: #2d3748;
-    }
+        .flow-item {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 12px 0;
+            border-left: 4px solid #4299e1;
+        }
 
-    /* Next Practice Box */
-    .next-practice-box {
-        background: #ebf8ff;
-        padding: 32px;
-        border-radius: 12px;
-        margin-top: 32px;
-        border: 2px solid #4299e1;
-    }
+        .flow-url {
+            font-family: 'Monaco', 'Consolas', monospace;
+            background: #282a36;
+            color: #50fa7b;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 8px;
+            font-size: 0.9375rem;
+        }
 
-    .next-practice-box h4 {
-        color: #2c5282;
-        margin-bottom: 16px;
-    }
+        /* Recap Box */
+        .recap-box {
+            background: #c6f6d5;
+            padding: 32px;
+            border-radius: 12px;
+            margin: 32px 0;
+        }
 
-    .next-practice-box ul {
-        list-style: none;
-        padding-left: 20px;
-    }
+        .recap-box h3 {
+            color: #22543d;
+            margin-bottom: 24px;
+            text-align: center;
+        }
 
-    .next-practice-box li::before {
-        content: "✓ ";
-        color: #48bb78;
-        font-weight: bold;
-        margin-right: 8px;
-    }
+        .recap-item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 16px 0;
+            border-left: 4px solid #48bb78;
+        }
 
-    .subtle {
-        color: #718096;
-        font-size: 0.9375rem;
-        font-style: italic;
-    }
+        .recap-item h4 {
+            color: #2f855a;
+            margin-bottom: 12px;
+        }
 
-    .small-text {
-        font-size: 0.875rem;
-        color: #718096;
-        margin-top: 8px;
-    }
+        .recap-item p {
+            margin: 4px 0;
+            color: #2d3748;
+        }
+
+        /* Next Practice Box */
+        .next-practice-box {
+            background: #ebf8ff;
+            padding: 32px;
+            border-radius: 12px;
+            margin-top: 32px;
+            border: 2px solid #4299e1;
+        }
+
+        .next-practice-box h4 {
+            color: #2c5282;
+            margin-bottom: 16px;
+        }
+
+        .next-practice-box ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .next-practice-box li::before {
+            content: "✓ ";
+            color: #48bb78;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .subtle {
+            color: #718096;
+            font-size: 0.9375rem;
+            font-style: italic;
+        }
+
+        .small-text {
+            font-size: 0.875rem;
+            color: #718096;
+            margin-top: 8px;
+        }
+
+        /* ==========================================
+           EXERCISE SLIDES (26-30)
+           ========================================== */
+
+        /* Slide 26 */
+        .exercise-icon-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .exercise-icon-box {
+            width: 56px;
+            height: 56px;
+            background: #4361ee;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .exercise-icon-row h1 {
+            margin: 0;
+        }
+
+        .exercise-icon-row .intro-text {
+            margin: 4px 0 0;
+        }
+
+        .challenge-intro-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 0 0 24px;
+        }
+
+        .challenge-done,
+        .challenge-next {
+            padding: 24px;
+            border-radius: 12px;
+        }
+
+        .challenge-done {
+            background: #f0fff4;
+            border: 2px solid #9ae6b4;
+        }
+
+        .challenge-next {
+            background: #fff5f5;
+            border: 2px solid #feb2b2;
+        }
+
+        .challenge-done h3,
+        .challenge-next h3 {
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+        }
+
+        .done-list,
+        .missing-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .done-list li,
+        .missing-list li {
+            padding: 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9375rem;
+        }
+
+        .challenge-goal-box {
+            background: #ebf8ff;
+            border: 2px solid #bee3f8;
+            padding: 24px;
+            border-radius: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .challenge-goal-box i {
+            color: #2b6cb0;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .challenge-goal-box h3 {
+            margin-bottom: 6px;
+            color: #2c5282;
+        }
+
+        .challenge-goal-box p {
+            color: #2d3748;
+            margin: 0;
+        }
+
+        /* Slide 27 - DB Relationship */
+        .db-relationship-container {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 28px 0;
+            overflow-x: auto;
+        }
+
+        .db-table-card {
+            flex: 1;
+            min-width: 280px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+        }
+
+        .db-table-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+        }
+
+        .countries-header {
+            background: #2b6cb0;
+        }
+
+        .provinces-header {
+            background: #2f855a;
+        }
+
+        .db-row-count {
+            margin-left: auto;
+            font-size: 0.8rem;
+            opacity: 0.85;
+            font-weight: 400;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        .db-preview-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            font-size: 0.875rem;
+        }
+
+        .db-preview-table th {
+            background: #edf2f7;
+            padding: 8px 12px;
+            text-align: left;
+            color: #4a5568;
+            font-weight: 600;
+            border-bottom: 2px solid #e2e8f0;
+            white-space: nowrap;
+        }
+
+        .db-preview-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #2d3748;
+        }
+
+        .pk-col,
+        .pk-cell {
+            color: #d69e2e;
+        }
+
+        .pk-cell {
+            font-weight: 600;
+        }
+
+        .fk-col {
+            background: #fff5f7 !important;
+            color: #c53030 !important;
+        }
+
+        .fk-cell {
+            color: #c53030;
+            font-weight: 600;
+        }
+
+        .fk-cell-zero {
+            color: #718096;
+            font-style: italic;
+        }
+
+        .db-val-green {
+            color: #276749;
+        }
+
+        .faded-row {
+            opacity: 0.6;
+        }
+
+        .more-rows td {
+            text-align: center;
+            color: #a0aec0;
+            font-style: italic;
+            padding: 10px;
+        }
+
+        .db-relationship-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .rel-line {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .rel-label {
+            font-size: 0.75rem;
+            color: #718096;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .rel-line i {
+            color: #c53030;
+        }
+
+        .relationship-explanation {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .rel-explain-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            background: #f7fafc;
+            padding: 16px;
+            border-radius: 8px;
+        }
+
+        .rel-explain-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .rel-explain-item strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .rel-explain-item p {
+            margin: 0;
+            color: #4a5568;
+            font-size: 0.9375rem;
+        }
+
+        /* Slide 28 - Exact App UI Preview */
+        .app-preview-wrap {
+            background: #edf0f5;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 12px;
+        }
+
+        .app-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.09);
+            padding: 28px 32px;
+        }
+
+        .app-card-title {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: #1c2129;
+            margin: 0 0 20px;
+        }
+
+        .app-btn {
+            display: inline-block;
+            padding: 7px 16px;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: default;
+            line-height: 1.4;
+        }
+
+        .app-btn-primary {
+            background: #4361ee;
+            color: white;
+        }
+
+        .app-btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .app-btn-warning {
+            background: #ffc107;
+            color: #1a1a1a;
+        }
+
+        .app-btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .app-btn-back {
+            background: #5a6372;
+            color: white;
+        }
+
+        .app-btn-sm {
+            padding: 4px 12px;
+            font-size: 0.8125rem;
+        }
+
+        .app-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 0.9rem;
+        }
+
+        .app-table thead tr {
+            background: #f5f6f8;
+            border-bottom: 2px solid #e2e5ea;
+        }
+
+        .app-table th {
+            padding: 10px 16px;
+            text-align: left;
+            color: #6b7280;
+            font-weight: 600;
+            font-size: 0.8375rem;
+            white-space: nowrap;
+        }
+
+        .app-table tbody tr {
+            border-bottom: 1px solid #edf0f5;
+        }
+
+        .app-table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .app-table td {
+            padding: 12px 16px;
+            color: #2d3748;
+            vertical-align: middle;
+        }
+
+        /* Highlight new column */
+        .app-new-col {
+            background: #fffbeb !important;
+        }
+
+        .app-table th.app-new-col {
+            background: #fef3c7 !important;
+            color: #92400e !important;
+        }
+
+        .app-new-badge {
+            display: inline-block;
+            background: #d97706;
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 10px;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+
+        /* Form elements */
+        .app-form-group {
+            margin-bottom: 18px;
+        }
+
+        .app-label {
+            display: block;
+            font-size: 0.9rem;
+            color: #374151;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .app-input {
+            display: block;
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            color: #6b7280;
+            background: #fff;
+            box-sizing: border-box;
+        }
+
+        .app-muted {
+            display: block;
+            font-size: 0.8125rem;
+            color: #9ca3af;
+            margin-top: 4px;
+        }
+
+        .app-new-field {
+            background: #fffbeb;
+            border: 2px solid #f59e0b;
+            border-radius: 8px;
+            padding: 14px 16px;
+        }
+
+        .app-new-field .app-label {
+            color: #92400e;
+        }
+
+        .app-form-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+            align-items: center;
+        }
+
+        .app-back-row {
+            margin-top: 20px;
+        }
+
+        .sim-note {
+            background: #ebf8ff;
+            border-left: 4px solid #4299e1;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+            color: #2c5282;
+        }
+
+        /* Slide 29 - Checklist */
+        .checklist-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 24px 0;
+        }
+
+        .checklist-card {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #e2e8f0;
+        }
+
+        .checklist-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            color: white;
+        }
+
+        .model-card-ex .checklist-card-header {
+            background: #2b6cb0;
+        }
+
+        .controller-card-ex .checklist-card-header {
+            background: #2f855a;
+        }
+
+        .view-card-ex .checklist-card-header {
+            background: #553c9a;
+        }
+
+        .checklist-card-header h3 {
+            margin: 0;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .file-badge {
+            margin-left: auto;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8125rem;
+            font-family: monospace;
+        }
+
+        .checklist-tasks {
+            background: white;
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .task-item {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+
+        .task-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #edf2f7;
+            color: #2d3748;
+            font-weight: 700;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .task-item strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .task-item p {
+            margin: 0;
+            color: #4a5568;
+            font-size: 0.9375rem;
+        }
+
+        .task-hint {
+            background: #f7fafc;
+            border-left: 3px solid #9f7aea;
+            padding: 8px 12px;
+            border-radius: 0 6px 6px 0;
+            margin-top: 8px;
+            font-size: 0.8125rem;
+            color: #4a5568;
+            font-family: 'Monaco', 'Consolas', monospace;
+        }
+
+        .task-hint i {
+            margin-right: 6px;
+            color: #9f7aea;
+            font-family: sans-serif;
+        }
+
+        .locked-teaser {
+            background: linear-gradient(135deg, #2d3748, #1a202c);
+            color: white;
+            padding: 24px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 8px;
+        }
+
+        .locked-teaser i {
+            color: #f6e05e;
+            flex-shrink: 0;
+        }
+
+        .locked-teaser h3 {
+            color: white;
+            margin-bottom: 6px;
+        }
+
+        .locked-teaser p {
+            color: #a0aec0;
+            margin: 0;
+            font-size: 0.9375rem;
+        }
     </style>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -411,7 +1035,7 @@
     </div>
 
     <!-- Slide Counter -->
-    <div class="slide-counter" id="slideCounter">1 / 25</div>
+    <div class="slide-counter" id="slideCounter">1 / 30</div>
 
     <!-- Main Container -->
     <div class="container">
@@ -475,7 +1099,8 @@
 
                 <div class="tip-box">
                     <i class="fas fa-lightbulb"></i>
-                    Web is "stateless" - It doesn't remember anything between requests. Nothing is saved unless you store it yourself (using sessions, cookies, or a database)
+                    Web is "stateless" - It doesn't remember anything between requests. Nothing is saved unless you
+                    store it yourself (using sessions, cookies, or a database)
                 </div>
             </div>
         </div>
@@ -545,12 +1170,16 @@
 
                 <div class="note-box">
                     <i class="fas fa-info-circle"></i>
-                    <strong>Why this matters:</strong> This happens EVERY time you click or load a page. Understanding this cycle is crucial for web development.
+                    <strong>Why this matters:</strong> This happens EVERY time you click or load a page. Understanding
+                    this cycle is crucial for web development.
                 </div>
 
                 <div class="insight-box">
                     <i class="fas fa-question-circle"></i>
-                    <strong>But isn't this complicated?</strong> Actually, it's simpler than it seems. A desktop app has to be installed on every user's computer, but one web app can work for thousands of people at the same time using the same code. Starting fresh each time also helps prevent memory problems and makes fixing errors easier.
+                    <strong>But isn't this complicated?</strong> Actually, it's simpler than it seems. A desktop app has
+                    to be installed on every user's computer, but one web app can work for thousands of people at the
+                    same time using the same code. Starting fresh each time also helps prevent memory problems and makes
+                    fixing errors easier.
                 </div>
             </div>
         </div>
@@ -615,7 +1244,8 @@
 
                 <div class="best-practice-box">
                     <i class="fas fa-star"></i>
-                    <strong>The Key Point:</strong> You write HTML files. PHP adds the dynamic parts. The browser never sees the PHP - it only sees the finished HTML result.
+                    <strong>The Key Point:</strong> You write HTML files. PHP adds the dynamic parts. The browser never
+                    sees the PHP - it only sees the finished HTML result.
                 </div>
             </div>
         </div>
@@ -646,9 +1276,12 @@
                     <div class="explanation-box">
                         <h4>What just happened?</h4>
                         <ul>
-                            <li><code>&lt;?php ?&gt;</code> = PHP tags (like <code>Imports</code> or <code>Namespace</code> boundaries)</li>
-                            <li><code>echo</code> = Output to page (like <code>Console.WriteLine</code> or <code>Response.Write</code>)</li>
-                            <li>Every statement ends with <code>;</code> (just like VB when you don't use line continuation)</li>
+                            <li><code>&lt;?php ?&gt;</code> = PHP tags (like <code>Imports</code> or
+                                <code>Namespace</code> boundaries)</li>
+                            <li><code>echo</code> = Output to page (like <code>Console.WriteLine</code> or
+                                <code>Response.Write</code>)</li>
+                            <li>Every statement ends with <code>;</code> (just like VB when you don't use line
+                                continuation)</li>
                         </ul>
                     </div>
                 </div>
@@ -777,7 +1410,8 @@ $age = 25;
 
                 <div class="insight-box">
                     <i class="fas fa-lightbulb"></i>
-                    <strong>Key Insight:</strong> PHP is gone by the time the browser sees the page. It only gets pure HTML!
+                    <strong>Key Insight:</strong> PHP is gone by the time the browser sees the page. It only gets pure
+                    HTML!
                 </div>
             </div>
         </div>
@@ -886,7 +1520,9 @@ $age = 25;
                     <h4>Real URL Example:</h4>
                     <div class="url-example">
                         <code>https://takealot.com/search?query=laptop&category=electronics&min_price=5000</code>
-                        <p class="url-explain"><i class="fas fa-arrow-up"></i> This is GET - all search parameters are in the URL. You can copy this link and send it to someone, and they'll see the exact same search results!</p>
+                        <p class="url-explain"><i class="fas fa-arrow-up"></i> This is GET - all search parameters are
+                            in the URL. You can copy this link and send it to someone, and they'll see the exact same
+                            search results!</p>
                     </div>
                 </div>
 
@@ -908,7 +1544,8 @@ $age = 25;
 
                 <div class="warning-box">
                     <i class="fas fa-shield-alt"></i>
-                    <strong>Security Rule:</strong> Never send passwords or sensitive data via GET. Anyone can see the URL - in browser history, server logs, over someone's shoulder!
+                    <strong>Security Rule:</strong> Never send passwords or sensitive data via GET. Anyone can see the
+                    URL - in browser history, server logs, over someone's shoulder!
                 </div>
             </div>
         </div>
@@ -1044,7 +1681,7 @@ $age = 25;
                 <h1>Your MVC-SHELL Framework</h1>
                 <p class="intro-text">Focus only on the <strong>app</strong> folder</p>
 
-<div class="folder-visual">
+                <div class="folder-visual">
                     <style>
                         .vscode-explorer {
                             background: #1e1e1e;
@@ -1143,7 +1780,7 @@ $age = 25;
 
                     <div class="vscode-explorer">
                         <div class="vscode-header">Explorer</div>
-                        
+
                         <div class="vscode-item">
                             <span class="vscode-chevron">▼</span>
                             <span class="vscode-icon vscode-folder">📁</span>
@@ -1224,7 +1861,8 @@ $age = 25;
                     <i class="fas fa-door-open"></i>
                     <h4>About that index.php file...</h4>
                     <p>This is where every request starts. It checks the URL and directs it to the right controller.</p>
-                    <p class="subtle">You usually don't need to touch this file, it runs everything in the background.</p>
+                    <p class="subtle">You usually don't need to touch this file, it runs everything in the background.
+                    </p>
                 </div>
             </div>
         </div>
@@ -1457,7 +2095,8 @@ class Province extends \Core\Model {
      */
     public function getAllProvinces() {
         $query = "SELECT * FROM province ORDER BY province_name";
-        return $this->getAll($query);
+        $provinces = $this->getAll($query);
+        return $provinces;
     }
     
     /**
@@ -1465,20 +2104,25 @@ class Province extends \Core\Model {
      */
     public function getProvinceById($id) {
         $query = "SELECT * FROM province WHERE id = ?";
-        return $this->getRow($query, [$id]);
+        $province = $this->getRow($query, [$id]);
+        return $province;
     }
     
     /**
      * Check if province code already exists
      */
     public function codeExists($provinceCode) {
-        $query = "SELECT COUNT(*) as count 
+        $query = "SELECT COUNT(*)
                   FROM province 
                   WHERE province_code = ?";
         
-            $result = $this->getRow($query, [$provinceCode]);
+        $count = $this->getOne($query, [$provinceCode]);  // get the count value
 
-        return $result['count'] > 0;
+        if ($count > 0) {
+            return true;  // there are results
+        } else {
+            return false; // there are no results
+        }
     }
 }</code></pre>
                     </div>
@@ -1501,7 +2145,8 @@ class Province extends \Core\Model {
 $query = "SELECT * FROM province";
 $provinces = $model->getAll($query);</code></pre>
                         </div>
-                        <p><strong>But...</strong> for learning and best practices, we're putting SQL in the Model. It's cleaner, more professional, and easier to maintain as your project grows!</p>
+                        <p><strong>But...</strong> for learning and best practices, we're putting SQL in the Model. It's
+                            cleaner, more professional, and easier to maintain as your project grows!</p>
                     </div>
                 </div>
             </div>
@@ -1542,7 +2187,6 @@ class Provinces extends \Core\Controller {
     public function indexAction() {
         $provinceModel = new \App\Models\Tables\Province();
         
-        // Look how clean! No SQL here, just call the method
         $this->view->provinces = $provinceModel->getAllProvinces();
         
         // View automatically loads: app/Views/Provinces/index.phtml
@@ -1637,7 +2281,7 @@ class Provinces extends \Core\Controller {
 
                     <div class="flow-explanation">
                         <h4><i class="fas fa-route"></i> What Happens When You Visit These URLs:</h4>
-                        
+
                         <div class="flow-item">
                             <div class="flow-url"><code>/provinces</code> or <code>/provinces/index</code></div>
                             <p>→ Runs <code>indexAction()</code> → Shows list (index.phtml)</p>
@@ -1661,7 +2305,8 @@ class Provinces extends \Core\Controller {
 
                     <div class="best-practice-box">
                         <i class="fas fa-star"></i>
-                        <strong>See the Benefits?</strong> The Controller is clean and readable. All the messy SQL lives in the Model where it belongs. This is professional code structure!
+                        <strong>See the Benefits?</strong> The Controller is clean and readable. All the messy SQL lives
+                        in the Model. This is professional code structure!
                     </div>
                 </div>
             </div>
@@ -1753,8 +2398,8 @@ class Provinces extends \Core\Controller {
             &lt;label for="name"&gt;Province Name:&lt;/label&gt;
             &lt;input type="text" 
                    class="form-control" 
-                   id="name" 
-                   name="name" 
+                   id="province_name" 
+                   name="province_name" 
                    value="&lt;?= $this->province['province_name'] ?? '' ?&gt;" 
                    required&gt;
         &lt;/div&gt;
@@ -1763,8 +2408,8 @@ class Provinces extends \Core\Controller {
             &lt;label for="code"&gt;Province Code:&lt;/label&gt;
             &lt;input type="text" 
                    class="form-control" 
-                   id="code" 
-                   name="code" 
+                   id="province_code" 
+                   name="province_code" 
                    value="&lt;?= $this->province['province_code'] ?? '' ?&gt;" 
                    maxlength="3" 
                    required&gt;
@@ -1782,7 +2427,8 @@ class Provinces extends \Core\Controller {
 
                 <div class="info-box" style="margin-top: 20px;">
                     <i class="fas fa-info-circle"></i>
-                    <strong>Note:</strong> The same form file works for both create and update! It checks if <code>$this->province</code> exists to know which mode it's in.
+                    <strong>Note:</strong> The same form file works for both create and update! It checks if
+                    <code>$this->province</code> exists to know which mode it's in.
                 </div>
             </div>
         </div>
@@ -1795,7 +2441,8 @@ class Provinces extends \Core\Controller {
                 <div class="url-breakdown-box">
                     <h3>Let's Break Down This URL:</h3>
                     <div class="url-visual">
-                        <code class="url-full">http://mvcshell.webdev.luthot/<span class="url-controller">functions</span>/<span class="url-action">create</span></code>
+                        <code class="url-full">http://mvcshell.webdev.luthot/<span
+                                class="url-controller">functions</span>/<span class="url-action">create</span></code>
                     </div>
 
                     <div class="url-explanation-grid">
@@ -1877,7 +2524,8 @@ class Provinces extends \Core\Controller {
 
                 <div class="tip-box">
                     <i class="fas fa-rocket"></i>
-                    <strong>Pro Tip:</strong> The framework does all this routing automatically! You just need to name your files and methods correctly.
+                    <strong>Tip:</strong> The framework does all this routing automatically! You just need to name
+                    your files and methods correctly.
                 </div>
             </div>
         </div>
@@ -1891,7 +2539,9 @@ class Provinces extends \Core\Controller {
                 <div class="url-params-box">
                     <h3>URLs Can Carry Extra Information:</h3>
                     <div class="url-visual">
-                        <code class="url-full">http://mvcshell.webdev.luthot/<span class="url-controller">functions</span>/<span class="url-action">update</span>/<span class="url-param">id</span>/<span class="url-value">34</span></code>
+                        <code class="url-full">http://mvcshell.webdev.luthot/<span
+                                class="url-controller">functions</span>/<span class="url-action">update</span>/<span
+                                class="url-param">id</span>/<span class="url-value">34</span></code>
                     </div>
 
                     <div class="url-params-grid">
@@ -1917,7 +2567,7 @@ class Provinces extends \Core\Controller {
 
                 <div class="debug-example-box">
                     <h4><i class="fas fa-bug"></i> How to See URL Parameters in Your Code</h4>
-                    
+
                     <div class="code-panel">
                         <div class="code-header">
                             <span><i class="fas fa-file-code"></i> Inside updateAction()</span>
@@ -1964,13 +2614,10 @@ class Provinces extends \Core\Controller {
     
     // Get the specific ID we need
     $functionId = $params['id'];  // Gets 34
-    
-    // Or use it directly
-    $id = $this->params['id'];    // Shortcut way
-    
+
     // Now load that record from database
     $functionModel = new \App\Models\Tables\Functions();
-    $record = $functionModel->getById($id);
+    $record = $functionModel->getById($functionId);
 }</code></pre>
                     </div>
                 </div>
@@ -2007,7 +2654,8 @@ class Provinces extends \Core\Controller {
 
                 <div class="best-practice-box">
                     <i class="fas fa-star"></i>
-                    <strong>Pro Debugging Tip:</strong> Always use <code>print_debug($params)</code> when building new actions. It shows you exactly what data you have to work with!
+                    <strong>Debugging Tip:</strong> Always use <code>print_debug($params)</code> when building new
+                    actions. It shows you exactly what data you have to work with!
                 </div>
             </div>
         </div>
@@ -2048,7 +2696,7 @@ class Provinces extends \Core\Controller {
 
                 <div class="recap-box">
                     <h3><i class="fas fa-check-circle"></i> What You've Learned:</h3>
-                    
+
                     <div class="recap-item">
                         <h4>1. Model</h4>
                         <p>✓ SQL queries live here</p>
@@ -2067,7 +2715,7 @@ class Provinces extends \Core\Controller {
                         <h4>3. View</h4>
                         <p>✓ Displays data from controller</p>
                         <p>✓ Shows forms to users</p>
-                        <p>✓ Just HTML + tiny bits of PHP</p>
+                        <p>✓ Just HTML + a bit of PHP</p>
                     </div>
 
                     <div class="recap-item">
@@ -2124,7 +2772,612 @@ class Provinces extends \Core\Controller {
 
                     <div class="thanks">
                         <h2>Questions?</h2>
-                        <p>Now's the time to ask - no question is too simple!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 26: Exercise Intro -->
+        <div class="slide" data-slide="26">
+            <div class="slide-content">
+                <div class="exercise-icon-row">
+                    <div class="exercise-icon-box">
+                        <i class="fas fa-pencil-alt"></i>
+                    </div>
+                    <div>
+                        <h1 style="margin-bottom:4px">Exercise: Link Provinces to a Country</h1>
+                        <p class="intro-text" style="margin:0">You have completed the Province CRUD. Now extend it to
+                            include the <code>country_id</code> column that already exists in the database.</p>
+                    </div>
+                </div>
+
+                <div class="challenge-intro-grid">
+                    <div class="challenge-done">
+                        <h3><i class="fas fa-check-circle" style="color:#48bb78"></i> &nbsp;Already Done</h3>
+                        <ul class="done-list">
+                            <li><i class="fas fa-check" style="color:#48bb78"></i> Province Model with SQL methods</li>
+                            <li><i class="fas fa-check" style="color:#48bb78"></i> Province Controller: all CRUD actions
+                            </li>
+                            <li><i class="fas fa-check" style="color:#48bb78"></i> Province Views: list and form</li>
+                            <li><i class="fas fa-check" style="color:#48bb78"></i> Province Name &amp; Code fields</li>
+                        </ul>
+                    </div>
+                    <div class="challenge-next">
+                        <h3><i class="fas fa-exclamation-circle" style="color:#e53e3e"></i> &nbsp;Still Missing</h3>
+                        <ul class="missing-list">
+                            <li><i class="fas fa-times" style="color:#e53e3e"></i> <code>country_id</code> column is
+                                ignored in code</li>
+                            <li><i class="fas fa-times" style="color:#e53e3e"></i> No Country dropdown on the form</li>
+                            <li><i class="fas fa-times" style="color:#e53e3e"></i> Country name not shown in the list
+                            </li>
+                            <li><i class="fas fa-times" style="color:#e53e3e"></i> No JOIN between the two tables</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="challenge-goal-box">
+                    <i class="fas fa-bullseye fa-2x"></i>
+                    <div>
+                        <h3>Objective</h3>
+                        <p>Update the Province CRUD so that each province is linked to a country. The
+                            <code>country_id</code> column already exists in the <code>province</code> table. It needs
+                            to be connected through the Model, Controller, and Views.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 27: Database Relationship -->
+        <div class="slide" data-slide="27">
+            <div class="slide-content">
+                <h1>The Database Relationship</h1>
+                <p class="intro-text">Two tables connected by <code>country_id</code></p>
+
+                <div class="db-relationship-container">
+                    <div class="db-table-card countries-table">
+                        <div class="db-table-header countries-header">
+                            <i class="fas fa-globe"></i>
+                            <span>countries</span>
+                            <span class="db-row-count">1 row</span>
+                        </div>
+                        <table class="db-preview-table">
+                            <thead>
+                                <tr>
+                                    <th class="pk-col"><i class="fas fa-key"></i> id</th>
+                                    <th>country_code</th>
+                                    <th>country_name</th>
+                                    <th>province_label</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="pk-cell">1</td>
+                                    <td><span class="db-val-green">ZA</span></td>
+                                    <td><span class="db-val-green">South Africa</span></td>
+                                    <td><span class="db-val-green">Province</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="db-relationship-arrow">
+                        <div class="rel-line">
+                            <span class="rel-label">country_id &rarr; id</span>
+                            <i class="fas fa-arrow-right fa-2x" style="color:#e53e3e"></i>
+                        </div>
+                    </div>
+
+                    <div class="db-table-card provinces-table">
+                        <div class="db-table-header provinces-header">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>province</span>
+                            <span class="db-row-count">9 rows</span>
+                        </div>
+                        <table class="db-preview-table">
+                            <thead>
+                                <tr>
+                                    <th class="pk-col"><i class="fas fa-key"></i> id</th>
+                                    <th>province_name</th>
+                                    <th>province_code</th>
+                                    <th class="fk-col">country_id</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="pk-cell">2</td>
+                                    <td>Western Cape</td>
+                                    <td>WC</td>
+                                    <td class="fk-cell">1</td>
+                                </tr>
+                                <tr>
+                                    <td class="pk-cell">3</td>
+                                    <td>Kwazulu Natal</td>
+                                    <td>KZN</td>
+                                    <td class="fk-cell">1</td>
+                                </tr>
+                                <tr class="faded-row">
+                                    <td class="pk-cell">6</td>
+                                    <td>Eastern Cape</td>
+                                    <td>EC</td>
+                                    <td class="fk-cell-zero">0</td>
+                                </tr>
+                                <tr class="more-rows">
+                                    <td colspan="4"><i class="fas fa-ellipsis-h"></i> &nbsp;6 more rows</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="relationship-explanation">
+                    <div class="rel-explain-item">
+                        <div class="rel-explain-icon" style="background:#ebf8ff; color:#2c5282">
+                            <i class="fas fa-link"></i>
+                        </div>
+                        <div>
+                            <strong>Foreign Key</strong>
+                            <p><code>province.country_id</code> stores the <code>id</code> of the matching row in
+                                <code>countries</code>. A value of <code>1</code> links to South Africa.</p>
+                        </div>
+                    </div>
+                    <div class="rel-explain-item">
+                        <div class="rel-explain-icon" style="background:#fff5f5; color:#c53030">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div>
+                            <strong>Current Problem</strong>
+                            <p>Rows with <code>country_id = 0</code> are not linked to anything. The create/update forms
+                                never prompt the user to select a country.</p>
+                        </div>
+                    </div>
+                    <div class="rel-explain-item">
+                        <div class="rel-explain-icon" style="background:#f0fff4; color:#22543d">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div>
+                            <strong>What Needs to Happen</strong>
+                            <p>Load all countries from the database, show them as a <code>&lt;select&gt;</code> dropdown
+                                on the form, and save the chosen <code>country_id</code> on submit.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 28: UI Preview — exact Bootstrap match -->
+        <div class="slide" data-slide="28">
+            <div class="slide-content">
+                <h1>What the Updated UI Should Look Like</h1>
+                <p class="intro-text">Your result must match this</p>
+
+                <div class="tabs-container">
+                    <button class="tab-btn active" data-tab="sim-list-tab">
+                        <i class="fas fa-list"></i> Province List
+                    </button>
+                    <button class="tab-btn" data-tab="sim-form-tab">
+                        <i class="fas fa-plus-circle"></i> Province Form
+                    </button>
+                </div>
+
+                <!-- LIST SIMULATION -->
+                <div id="sim-list-tab" class="tab-content active">
+                    <div class="app-preview-wrap">
+                        <div class="app-card">
+                            <h2 class="app-card-title">Province Management</h2>
+                            <a class="app-btn app-btn-primary">
+                                <i class="fas fa-plus"></i> Add Province
+                            </a>
+                            <table class="app-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Code</th>
+                                        <th class="app-new-col">Country &nbsp;<span class="app-new-badge">NEW</span>
+                                        </th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Eastern Cape</td>
+                                        <td>EC</td>
+                                        <td class="app-new-col">South Africa</td>
+                                        <td>
+                                            <span class="app-btn app-btn-warning app-btn-sm">Edit</span>
+                                            <span class="app-btn app-btn-danger app-btn-sm">Delete</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kwazulu Natal</td>
+                                        <td>KZN</td>
+                                        <td class="app-new-col">South Africa</td>
+                                        <td>
+                                            <span class="app-btn app-btn-warning app-btn-sm">Edit</span>
+                                            <span class="app-btn app-btn-danger app-btn-sm">Delete</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Western Cape</td>
+                                        <td>WC</td>
+                                        <td class="app-new-col">South Africa</td>
+                                        <td>
+                                            <span class="app-btn app-btn-warning app-btn-sm">Edit</span>
+                                            <span class="app-btn app-btn-danger app-btn-sm">Delete</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="app-back-row">
+                                <span class="app-btn app-btn-back">
+                                    <i class="fas fa-arrow-left"></i> Back
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sim-note">
+                        <i class="fas fa-info-circle"></i> The <strong>Country</strong> column must show
+                        <code>country_name</code> from the <code>countries</code> table.Not the raw
+                        <code>country_id</code> number. This requires a <code>LEFT JOIN</code> in your SQL query.
+                    </div>
+                </div>
+
+                <!-- FORM SIMULATION -->
+                <div id="sim-form-tab" class="tab-content">
+                    <div class="app-preview-wrap">
+                        <div class="app-card">
+                            <h2 class="app-card-title">Add Province</h2>
+                            <div class="app-form-group">
+                                <label class="app-label">Province Name:</label>
+                                <input class="app-input" type="text" disabled>
+                            </div>
+                            <div class="app-form-group">
+                                <label class="app-label">Province Code:</label>
+                                <input class="app-input" type="text" disabled>
+                                <small class="app-muted">E.g., GP for Gauteng, WC for Western Cape</small>
+                            </div>
+                            <div class="app-form-group app-new-field">
+                                <label class="app-label">
+                                    <i class="fas fa-plus-circle"></i> Country: &nbsp;<span class="app-new-badge">NEW
+                                        FIELD</span>
+                                </label>
+                                <select class="app-input" disabled>
+                                    <option>-- Select Country --</option>
+                                    <option selected>South Africa (ZA)</option>
+                                </select>
+                                <small class="app-muted"><i class="fas fa-database"></i> Loaded from the
+                                    <code>countries</code> table by the controller</small>
+                            </div>
+                            <div class="app-form-actions">
+                                <span class="app-btn app-btn-primary">Save</span>
+                                <span class="app-btn app-btn-secondary">Cancel</span>
+                            </div>
+                            <div class="app-back-row">
+                                <span class="app-btn app-btn-back">
+                                    <i class="fas fa-arrow-left"></i> Back
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sim-note">
+                        <i class="fas fa-info-circle"></i> The <strong>Country dropdown</strong> is populated by the
+                        controller — it calls <code>getAllCountries()</code> and passes the result to the view via
+                        <code>$this->view->countries</code>.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 29: Step-by-Step Tasks -->
+        <div class="slide" data-slide="29">
+            <div class="slide-content">
+                <h1>What You Need to Change</h1>
+                <p class="intro-text">Update three layers: Model, Controller, and Views</p>
+
+                <div class="checklist-grid">
+
+                    <div class="checklist-card model-card-ex">
+                        <div class="checklist-card-header">
+                            <i class="fas fa-database"></i>
+                            <h3>1. Model</h3>
+                            <span class="file-badge">Province.php</span>
+                        </div>
+                        <div class="checklist-tasks">
+                            <div class="task-item">
+                                <span class="task-num">A</span>
+                                <div>
+                                    <strong>Update <code>getAllProvinces()</code></strong>
+                                    <p>Add a <code>LEFT JOIN</code> to also retrieve <code>country_name</code> from the
+                                        <code>countries</code> table</p>
+                                    <div class="task-hint">
+                                        <i class="fas fa-lightbulb"></i> &nbsp;
+                                        <code>SELECT p.*, c.country_name FROM province p LEFT JOIN countries c ON
+                                            p.country_id = c.id</code>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="task-item">
+                                <span class="task-num">B</span>
+                                <div>
+                                    <strong>Add a new <code>getAllCountries()</code> method</strong>
+                                    <p>Returns all rows from the <code>countries</code> table: used to populate the
+                                        dropdown</p>
+                                    <div class="task-hint">
+                                        <i class="fas fa-lightbulb"></i> &nbsp;
+                                        <code>SELECT id, country_name, country_code FROM countries ORDER BY
+                                            country_name</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checklist-card controller-card-ex">
+                        <div class="checklist-card-header">
+                            <i class="fas fa-random"></i>
+                            <h3>2. Controller</h3>
+                            <span class="file-badge">Provinces.php</span>
+                        </div>
+                        <div class="checklist-tasks">
+                            <div class="task-item">
+                                <span class="task-num">C</span>
+                                <div>
+                                    <strong>In <code>createAction()</code> and <code>updateAction()</code></strong>
+                                    <p>Call <code>getAllCountries()</code> and pass the result to the view so the
+                                        dropdown has data</p>
+                                    <div class="task-hint">
+                                        <i class="fas fa-lightbulb"></i> &nbsp;
+                                        <code>$this->view->countries = $provinceModel->getAllCountries();</code>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="task-item">
+                                <span class="task-num">D</span>
+                                <div>
+                                    <strong>Include <code>country_id</code> when saving</strong>
+                                    <p>Add it to the <code>$data</code> array in both create and update actions</p>
+                                    <div class="task-hint">
+                                        <i class="fas fa-lightbulb"></i> &nbsp;
+                                        <code>'country_id' =&gt; $params['country_id']</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checklist-card view-card-ex">
+                        <div class="checklist-card-header">
+                            <i class="fas fa-eye"></i>
+                            <h3>3. Views</h3>
+                            <span class="file-badge">Provinces/</span>
+                        </div>
+                        <div class="checklist-tasks">
+                            <div class="task-item">
+                                <span class="task-num">E</span>
+                                <div>
+                                    <strong>Update <code>index.phtml</code></strong>
+                                    <p>Add a <strong>Country</strong> column to the table header and output
+                                        <code>$prov['country_name']</code> in each row</p>
+                                </div>
+                            </div>
+                            <div class="task-item">
+                                <span class="task-num">F</span>
+                                <div>
+                                    <strong>Update <code>create.phtml</code> and <code>update.phtml</code></strong>
+                                    <p>Add a <code>&lt;select&gt;</code> field that loops through
+                                        <code>$this->countries</code> to build the options</p>
+                                    <div class="task-hint">
+                                        <i class="fas fa-lightbulb"></i> &nbsp;
+                                        <code>&lt;?php foreach($this->countries as $country): ?&gt;</code><br>
+                                        <code>&lt;option value="&lt;?= $country['id'] ?&gt;"&gt; &lt;?=
+                                            $country['country_name'] ?&gt; &lt;/option&gt;</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="locked-teaser">
+                    <i class="fas fa-lock fa-2x"></i>
+                    <div>
+                        <h3>Full Solution on the Next Slide</h3>
+                        <p>Attempt the exercise first. The next slide is locked.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Slide 30: LOCKED — Full Solution -->
+        <div class="slide" data-slide="30">
+            <div class="slide-content">
+                <h1>Full Solution</h1>
+                <p class="intro-text">Complete working code for the Country linking feature</p>
+
+                <div class="tabs-container">
+                    <button class="tab-btn active" data-tab="sol-model">Model</button>
+                    <button class="tab-btn" data-tab="sol-controller">Controller</button>
+                    <button class="tab-btn" data-tab="sol-views">Views</button>
+                </div>
+
+                <!-- MODEL SOLUTION -->
+                <div id="sol-model" class="tab-content active">
+                    <div class="file-location">
+                        <i class="fas fa-folder-open"></i>
+                        Update: <code>app/Models/Tables/Province.php</code>
+                    </div>
+                    <div class="code-panel">
+                        <div class="code-header">
+                            <span><i class="fas fa-file-code"></i> Province.php — updated methods</span>
+                            <button class="copy-btn" data-code="sol-model-code">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                        <pre><code id="sol-model-code" class="language-php">/**
+ * Get all provinces WITH country name (JOIN)
+ */
+public function getAllProvinces() {
+    $query = "SELECT p.*, c.country_name 
+              FROM province p
+              LEFT JOIN countries c ON p.country_id = c.id
+              ORDER BY p.province_name";
+    return $this->getAll($query);
+}
+
+/**
+ * NEW: Get all countries for the dropdown
+ */
+public function getAllCountries() {
+    $query = "SELECT id, country_name, country_code 
+              FROM countries 
+              ORDER BY country_name";
+    return $this->getAll($query);
+}
+
+/**
+ * Get single province by ID (include country_name)
+ */
+public function getProvinceById($id) {
+    $query = "SELECT p.*, c.country_name 
+              FROM province p
+              LEFT JOIN countries c ON p.country_id = c.id
+              WHERE p.id = ?";
+    return $this->getRow($query, [$id]);
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- CONTROLLER SOLUTION -->
+                <div id="sol-controller" class="tab-content">
+                    <div class="file-location">
+                        <i class="fas fa-folder-open"></i>
+                        Update: <code>app/Controllers/Provinces.php</code>
+                    </div>
+                    <div class="code-panel">
+                        <div class="code-header">
+                            <span><i class="fas fa-file-code"></i> Provinces.php — updated actions</span>
+                            <button class="copy-btn" data-code="sol-controller-code">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                        <pre><code id="sol-controller-code" class="language-php">public function createAction() {
+    $provinceModel = new \App\Models\Tables\Province();
+    
+    // Load countries for the dropdown
+    $this->view->countries = $provinceModel->getAllCountries();
+    
+    if ($this->getRequest()->isPost()) {
+        $params = $this->getAllParams();
+        
+        if ($provinceModel->codeExists($params['province_code'])) {
+            $this->view->error = "Province code already exists!";
+            return;
+        }
+        
+        $data = [
+            'province_name' => $params['province_name'],
+            'province_code' => strtoupper($params['province_code']),
+            'country_id'    => $params['country_id']  // NEW!
+        ];
+        
+        $provinceModel->autoExecute('province', $data, DB_AUTOQUERY_INSERT);
+        $this->redirect('/provinces');
+    }
+}
+
+public function updateAction() {
+    $params = $this->getAllParams();
+    $id = $params['id'];
+    $provinceModel = new \App\Models\Tables\Province();
+    
+    // Load countries for the dropdown
+    $this->view->countries = $provinceModel->getAllCountries();
+    
+    if ($this->getRequest()->isPost()) {
+        $data = [
+            'province_name' => $params['province_name'],
+            'province_code' => strtoupper($params['province_code']),
+            'country_id'    => $params['country_id']  // NEW!
+        ];
+        
+        $provinceModel->autoExecute(
+            'province', $data, DB_AUTOQUERY_UPDATE, "id = '$id'"
+        );
+        $this->redirect('/provinces');
+    }
+    
+    $this->view->province = $provinceModel->getProvinceById($id);
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- VIEWS SOLUTION -->
+                <div id="sol-views" class="tab-content">
+                    <div class="file-location">
+                        <i class="fas fa-folder-open"></i>
+                        Update: <code>app/Views/Provinces/index.phtml</code> &amp; form views
+                    </div>
+                    <div class="code-panel">
+                        <div class="code-header">
+                            <span><i class="fas fa-file-code"></i> index.phtml — add Country column</span>
+                            <button class="copy-btn" data-code="sol-list-view-code">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                        <pre><code id="sol-list-view-code" class="language-php">&lt;table class="table"&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Name&lt;/th&gt;
+            &lt;th&gt;Code&lt;/th&gt;
+            &lt;th&gt;Country&lt;/th&gt;  &lt;!-- NEW --&gt;
+            &lt;th&gt;Actions&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;?php foreach($this->provinces as $prov): ?&gt;
+        &lt;tr&gt;
+            &lt;td&gt;&lt;?= $prov['province_name'] ?&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;?= $prov['province_code'] ?&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;?= $prov['country_name'] ?&gt;&lt;/td&gt;  &lt;!-- NEW --&gt;
+            &lt;td&gt;
+                &lt;a href="/provinces/update/id/&lt;?= $prov['id'] ?&gt;" 
+                   class="btn btn-sm btn-warning"&gt;Edit&lt;/a&gt;
+                &lt;a href="/provinces/delete/id/&lt;?= $prov['id'] ?&gt;" 
+                   class="btn btn-sm btn-danger"
+                   onclick="return confirm('Are you sure?')"&gt;Delete&lt;/a&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;?php endforeach; ?&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+                    </div>
+
+                    <div class="code-panel" style="margin-top:16px">
+                        <div class="code-header">
+                            <span><i class="fas fa-file-code"></i> create.phtml / update.phtml — add dropdown</span>
+                            <button class="copy-btn" data-code="sol-form-view-code">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                        <pre><code id="sol-form-view-code" class="language-php">&lt;!-- Add this form-group AFTER province_code --&gt;
+&lt;div class="form-group"&gt;
+    &lt;label for="country_id"&gt;Country:&lt;/label&gt;
+    &lt;select class="form-control" id="country_id" name="country_id" required&gt;
+        &lt;option value=""&gt;-- Select Country --&lt;/option&gt;
+        &lt;?php foreach($this->countries as $country): ?&gt;
+            &lt;option value="&lt;?= $country['id'] ?&gt;"
+                &lt;?= (isset($this->province) &amp;&amp; $this->province['country_id'] == $country['id']) 
+                    ? 'selected' : '' ?&gt;&gt;
+                &lt;?= $country['country_name'] ?&gt; (&lt;?= $country['country_code'] ?&gt;)
+            &lt;/option&gt;
+        &lt;?php endforeach; ?&gt;
+    &lt;/select&gt;
+&lt;/div&gt;</code></pre>
+                    </div>
+
+                    <div class="best-practice-box" style="margin-top:16px">
+                        <i class="fas fa-star"></i>
+                        <strong>Note the <code>selected</code> trick:</strong> When editing, we check if the current
+                        province's <code>country_id</code> matches each option to pre-select the right country.
                     </div>
                 </div>
             </div>
@@ -2136,7 +3389,7 @@ class Provinces extends \Core\Controller {
         <button class="nav-btn" id="prevBtn">
             <i class="fas fa-chevron-left"></i> Previous
         </button>
-        <span class="nav-counter" id="navCounter">1 / 25</span>
+        <span class="nav-counter" id="navCounter">1 / 30</span>
         <button class="nav-btn" id="nextBtn">
             Next <i class="fas fa-chevron-right"></i>
         </button>
@@ -2144,7 +3397,6 @@ class Provinces extends \Core\Controller {
             <i class="fas fa-redo"></i> Restart
         </button>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/php.min.js"></script>
